@@ -1214,12 +1214,21 @@ $getParams = array(
 			if ($res_parent) {
 				$row_parent = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res_parent);
 			}
-			
+
+			if (empty($row_parent['image'])) {
+				return '';
+			}
+
 			$imgTSConfig["file"] = "uploads/tx_jkpoll/".$row_parent["image"];
   			$width = ($width) ? $width : $row_parent["width"];
   			$height = ($height) ? $height : $row_parent["height"];
   			$clickenlarge = $row_parent["clickenlarge"];
 		} else {
+
+			if (empty($row[''])) {
+				return '';
+			}
+
 			$imgTSConfig["file"] = "uploads/tx_jkpoll/".$row["image"];
 			if (!$width && !$height) {
 				$width = $row["width"];
