@@ -10,7 +10,7 @@ plugin.tx_jkpoll_pi1 {
 	# CSS file
 	css_file =
 	# if set, allows user to select more than one answer (uses checkboxes instead of radio buttons)
-	checkbox = 0  
+	checkbox = 0
 
 /*
  * list of polls
@@ -22,7 +22,7 @@ plugin.tx_jkpoll_pi1 {
 	# if set, the latest poll is shown in a list of polls, too
 	list_first = 0
 	# if set, the results in a list of polls are shown
- 	show_results_in_list = 0
+	show_results_in_list = 0
 
 /*
  * language handling
@@ -56,7 +56,7 @@ plugin.tx_jkpoll_pi1 {
 
 	# ->stdWrap for the poll question
 	rtefield_stdWrap {
-		parseFunc < tt_content.text.20.parseFunc 
+		parseFunc < tt_content.text.20.parseFunc
 	}
 
 /*
@@ -83,7 +83,7 @@ plugin.tx_jkpoll_pi1 {
 	# alternative path to image files for the image resultbar with trailing slash. default: EXT:jk_poll/images/
 	path_to_images =
 	# image file type
-	image_type = gif 
+	image_type = gif
 	# name of the image file to build up the image resultbar. File must exist as [path_to_images][color].gif
 	color = blue
 	# if set, options with 0 percent are shown as 1px line in the result
