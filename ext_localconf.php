@@ -25,7 +25,7 @@ $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['cms']['db_layout']['addTables']['tx_jkpo
 mod.wizards.newContentElement.wizardItems.special {
 
 	elements.tx_jk_poll_pi1 {
-		icon = ' . \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('jk_poll') . 'pi1/ce_wiz.gif
+		icon = ' . \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/PollNewContentElementWizard.gif
 		title = LLL:EXT:jk_poll/locallang_db.xml:pi1_title
 		description = LLL:EXT:jk_poll/locallang_db.xml:pi1_plus_wiz_description
 		tt_content_defValues {
