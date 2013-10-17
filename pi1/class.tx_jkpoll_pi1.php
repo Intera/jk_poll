@@ -1,32 +1,32 @@
 <?php
 /***************************************************************
- *  Copyright notice
+ * Copyright notice
  *
- *  (c) 2004 Johannes Krausmueller (johannes@krausmueller.de)
- *  All rights reserved
+ * (c) 2004 Johannes Krausmueller (johannes@krausmueller.de)
+ * All rights reserved
  *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ * This script is part of the TYPO3 project. The TYPO3 project is
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
  *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
+ * The GNU General Public License can be found at
+ * http://www.gnu.org/copyleft/gpl.html.
  *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
  *
- *  This copyright notice MUST APPEAR in all copies of the script!
+ * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
+
 /**
  * Plugin 'Poll' for the 'jk_poll' extension.
  *
- * @author    Johannes Krausmueller <johannes@krausmueller.de>
+ * @author Johannes Krausmueller <johannes@krausmueller.de>
  */
-
 class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	public $prefixId = 'tx_jkpoll_pi1'; // Same as class name
 	public $scriptRelPath = 'pi1/class.tx_jkpoll_pi1.php'; // Path to this script relative to the extension dir.
@@ -147,7 +147,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	/**
 	 * Shows the poll questions and lets the user votes for one answer or shows results if user already voted
 	 *
-	 * @return   string      HTML to display in frontend
+	 * @return string HTML to display in frontend
 	 */
 	function showpoll() {
 
@@ -411,7 +411,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	/**
 	 * Shows the result of the poll
 	 *
-	 * @return    string        HTML to display in the frontend
+	 * @return string HTML to display in the frontend
 	 */
 	function showresults() {
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
@@ -520,11 +520,11 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			/*			switch ($total) {
 							case 0:
 								$markerArray["###VOTES###"] = ($this->LL_novote_label) ? '' : $total;
-								$markerArray["###VOTES_LABEL###"] =  ($this->LL_novote_label) ? $this->LL_novote_label : $this->LL_votes_label;
+								$markerArray["###VOTES_LABEL###"] = ($this->LL_novote_label) ? $this->LL_novote_label : $this->LL_votes_label;
 								break;
 							case 1:
 								$markerArray["###VOTES###"] = ($this->LL_onevote_label) ? '' : $total;
-								$markerArray["###VOTES_LABEL###"] =  ($this->LL_onevote_label) ? $this->LL_onevote_label : $this->LL_votes_label;
+								$markerArray["###VOTES_LABEL###"] = ($this->LL_onevote_label) ? $this->LL_onevote_label : $this->LL_votes_label;
 								break;
 							default:
 								$markerArray["###VOTES###"] = $total;
@@ -664,7 +664,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	/**
 	 * Saves the votes in the database. Checks cookies to prevent misuse
 	 *
-	 * @return   string      HTML to show in frontend
+	 * @return string HTML to show in frontend
 	 */
 	function savevote() {
 		if ((!$this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'check_language_specific', 'sDEF') && !$this->conf['check_language_specific']) && $this->pollID_parent != 0) {
@@ -892,7 +892,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	/**
 	 * Gets the newest active poll on the page / startingpoint page or the one specified via GET
 	 *
-	 * @return   boolean      pollID was found and set or not
+	 * @return boolean pollID was found and set or not
 	 */
 	function getPollID() {
 
@@ -979,8 +979,8 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	/**
 	 * Gets the parent uid of the poll if translated
 	 *
-	 * @param    integer $uid : uid of poll which should be checked for parent uid
-	 * @return    integer        parent uid of poll (0 if none found)
+	 * @param integer $uid : uid of poll which should be checked for parent uid
+	 * @return integer parent uid of poll (0 if none found)
 	 */
 	function getPollIDParent($uid) {
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
@@ -1015,9 +1015,9 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 
 	/**
-	 *  Gets the newest active poll on the page / startingpoint page and returns its ID
+	 * Gets the newest active poll on the page / startingpoint page and returns its ID
 	 *
-	 * @return   string      uid of the last active poll on the page / startingpoint
+	 * @return string uid of the last active poll on the page / startingpoint
 	 */
 	function getLastPoll() {
 
@@ -1047,9 +1047,9 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 
 	/**
-	 *  Shows a list of all polls
+	 * Shows a list of all polls
 	 *
-	 * @return   string      HTML list of all polls
+	 * @return string HTML list of all polls
 	 */
 	function showlist() {
 
@@ -1179,10 +1179,10 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	/**
 	 * Returns the HTML for the image
 	 *
-	 * @param    integer $uid : uid of poll
-	 * @param    integer $width : width of the picture
-	 * @param    integer $height : height of the picture
-	 * @return    integer        HTML for the image
+	 * @param integer $uid : uid of poll
+	 * @param integer $width : width of the picture
+	 * @param integer $height : height of the picture
+	 * @return integer HTML for the image
 	 */
 	function getimage($uid, $width, $height) {
 
@@ -1262,8 +1262,8 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	/**
 	 * Returns the HTML for the image
 	 *
-	 * @param    integer $image : name of the image
-	 * @return    integer        HTML for the image
+	 * @param integer $image : name of the image
+	 * @return integer HTML for the image
 	 */
 	function getAnswerImage($image) {
 
@@ -1285,8 +1285,8 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	/**
 	 * Returns if poll is still valid (no end date set)
 	 *
-	 * @param    integer $uid : name of the poll to check
-	 * @return  boolean     poll valid or not
+	 * @param integer $uid : name of the poll to check
+	 * @return boolean poll valid or not
 	 */
 	function checkPollValid($uid) {
 
