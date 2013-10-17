@@ -27,12 +27,7 @@
  * @author	Johannes Krausmueller <johannes@krausmueller.de>
  */
 
-
-if (t3lib_div::int_from_ver(TYPO3_version) < 6000000) {
-	require_once(PATH_tslib . 'class.tslib_pibase.php');
-}
-
-class tx_jkpoll_pi1 extends tslib_pibase {
+class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	public $prefixId      = 'tx_jkpoll_pi1';        // Same as class name
 	public $scriptRelPath = 'pi1/class.tx_jkpoll_pi1.php';    // Path to this script relative to the extension dir.
 	public $extKey        = 'jk_poll';    // The extension key.
