@@ -19,4 +19,21 @@ $TYPO3_CONF_VARS['EXTCONF']['cms']['db_layout']['addTables']['tx_jkpoll_poll'][0
     'fList' => 'title',
     'icon' => TRUE
 );
-?>
+
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('
+
+mod.wizards.newContentElement.wizardItems.special {
+
+	elements.tx_jk_poll_pi1 {
+		icon = ' . \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('jk_poll') . 'pi1/ce_wiz.gif
+		title = LLL:EXT:jk_poll/locallang_db.xml:pi1_title
+		description = LLL:EXT:jk_poll/locallang_db.xml:pi1_plus_wiz_description
+		tt_content_defValues {
+			CType = list
+			list_type = jk_poll_pi1
+		}
+    }
+
+    show := addToList(tx_jk_poll_pi1)
+}
+');
