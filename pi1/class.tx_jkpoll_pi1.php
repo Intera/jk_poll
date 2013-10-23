@@ -86,6 +86,9 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	protected $pollID;
 
 	/**
+	 * If the current poll is a translation pollID_parent contains the
+	 * UID of the non-translated version, otherwise 0
+	 *
 	 * @var int
 	 */
 	protected $pollID_parent;
@@ -117,14 +120,15 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	protected $typo3Db;
 
 	/**
-	 * TRUE if current poll is valid
+	 * TRUE if the valid_till date is not in the past
 	 *
 	 * @var boolean
 	 */
 	protected $valid;
 
 	/**
-	 * TRUE if current poll is votable
+	 * TRUE if current poll is votable. This will be FALSE if vote_old
+	 * is set to FALSE and the current poll is not the newest poll.
 	 *
 	 * @var boolean
 	 */
