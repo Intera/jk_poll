@@ -22,6 +22,8 @@
  * This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Plugin 'Poll' for the 'jk_poll' extension.
  *
@@ -137,13 +139,14 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		$this->pollEnableFields = $this->cObj->enableFields('tx_jkpoll_poll');
 
 		// this will convert any string which is supplied as $_SERVER['REMOTE_ADDR'] into a valid ip address
-		$this->REMOTE_ADDR = long2ip(ip2long($_SERVER['REMOTE_ADDR']));
+		$currentRemoteAddress = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('REMOTE_ADDR');
+		$this->REMOTE_ADDR =  long2ip(ip2long($currentRemoteAddress));
 
 		//initialize sr_freecap
 		if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'captcha', 's_poll') == "sr_freecap" || $this->conf['captcha'] == "sr_freecap") {
 			if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('sr_freecap')) {
 				require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('sr_freecap') . 'pi2/class.tx_srfreecap_pi2.php');
-				$this->freeCap = t3lib_div::makeInstance('tx_srfreecap_pi2');
+				$this->freeCap = GeneralUtility::makeInstance('tx_srfreecap_pi2');
 			}
 		}
 
@@ -202,8 +205,8 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		//Poll should be displayed
 		if (strchr($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'what_to_display', 'sDEF'), "POLL") || $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'what_to_display', 'sDEF') == '') {
 			//The Get/Post variables
-			$postVars = t3lib_div::_GP($this->prefixId);
-			$getVars = t3lib_div::_GET($this->prefixId);
+			$postVars = GeneralUtility::_GP($this->prefixId);
+			$getVars = GeneralUtility::_GET($this->prefixId);
 			if ($postVars['go']) {
 				$this->go = $postVars['go'];
 			} else {
@@ -293,7 +296,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'list', 's_poll') || $this->conf['list']) {
 				//build url for linklist
 				$getParams = array_merge(
-					t3lib_div::_GET(),
+					GeneralUtility::_GET(),
 					array(
 						$this->prefixId . '[go]' => 'list',
 						$this->prefixId . '[uid]' => $this->pollID
@@ -407,7 +410,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 				//build url for form
 				//get the current GET params, so the language (and maybe more) is preserved within the submit link
-				//				$getParams = t3lib_div::_GET();
+				//				$getParams = GeneralUtility::_GET();
 				$getParams = array(
 					'L' => $GLOBALS['TSFE']->sys_language_content,
 				);
@@ -482,7 +485,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				$content .= '</form>';
 
 			} else {
-				$getVars = t3lib_div::_GET($this->prefixId);
+				$getVars = GeneralUtility::_GET($this->prefixId);
 				// add get paramters to make it work with extension "comments"
 				if (($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'comments_on_result', 's_result') || $this->conf['comments_on_result']) && $getVars['uid_comments'] == "") {
 					$getParams = array(
@@ -490,7 +493,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 						$this->prefixId . '[uid]' => $this->pollID,
 						$this->prefixId . '[uid_comments]' => $this->pollID,
 					);
-					header('Location:' . t3lib_div::locationHeaderUrl($this->pi_getPageLink($GLOBALS['TSFE']->id, '', $getParams)));
+					header('Location:' . GeneralUtility::locationHeaderUrl($this->pi_getPageLink($GLOBALS['TSFE']->id, '', $getParams)));
 				} else {
 					//Show result
 					$content = $this->showresults();
@@ -968,13 +971,13 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			$getParams[$this->prefixId . '[uid_comments]'] = $this->pollID;
 		}
 		if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'PIDforward', 's_poll')) {
-			header('Location:' . t3lib_div::locationHeaderUrl($this->pi_getPageLink($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'PIDforward', 's_poll'), '', $getParams)));
+			header('Location:' . GeneralUtility::locationHeaderUrl($this->pi_getPageLink($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'PIDforward', 's_poll'), '', $getParams)));
 		} elseif ($this->conf['PIDforward']) {
-			header('Location:' . t3lib_div::locationHeaderUrl($this->pi_getPageLink($this->conf['PIDforward'], '', $getParams)));
+			header('Location:' . GeneralUtility::locationHeaderUrl($this->pi_getPageLink($this->conf['PIDforward'], '', $getParams)));
 		} else {
 			// send to url if comments are enabled, otherwise just show the result
 			if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'comments', 's_poll') || $this->conf['comments'] || $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'comments_on_result', 's_result') || $this->conf['comments_on_result']) {
-				header('Location:' . t3lib_div::locationHeaderUrl($this->pi_getPageLink($GLOBALS['TSFE']->id, '', $getParams)));
+				header('Location:' . GeneralUtility::locationHeaderUrl($this->pi_getPageLink($GLOBALS['TSFE']->id, '', $getParams)));
 			} else {
 				$content = $this->showresults();
 			}
@@ -1028,7 +1031,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 			// send tp page with poll uid as get paramter (needed to work with extension "comments")
 			if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'comments', 's_poll') || $this->conf['comments'] || $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'comments_on_result', 's_result') || $this->conf['comments_on_result']) {
-				header('Location:' . t3lib_div::locationHeaderUrl($this->pi_getPageLink($GLOBALS['TSFE']->id, '', array('L' => $GLOBALS['TSFE']->sys_language_content, $this->prefixId . '[uid]' => $this->pollID))));
+				header('Location:' . GeneralUtility::locationHeaderUrl($this->pi_getPageLink($GLOBALS['TSFE']->id, '', array('L' => $GLOBALS['TSFE']->sys_language_content, $this->prefixId . '[uid]' => $this->pollID))));
 			}
 		}
 		//check if poll is available for language selected
@@ -1417,7 +1420,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			'numberOfPages' => $numberOfPages,
 		);
 		// Get page browser
-		$cObj = t3lib_div::makeInstance('tslib_cObj');
+		$cObj = GeneralUtility::makeInstance('tslib_cObj');
 		/* @var $cObj tslib_cObj */
 		$cObj->start(array(), '');
 		return $cObj->cObjGetSingle('USER', $conf);
