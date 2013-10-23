@@ -23,6 +23,8 @@ plugin.tx_jkpoll_pi1 {
 	list_first = 0
 	# if set, the results in a list of polls are shown
 	show_results_in_list = 0
+	# if set it will be possible to vote for older polls, otherwise it is only possible to vote for the newest poll
+	vote_old =
 
 /*
  * language handling
@@ -37,8 +39,8 @@ plugin.tx_jkpoll_pi1 {
  * prevent multiple or spam voting
  */
 
-	# days, before a user may vote again for this poll. If set to "off", a session cookie is created.
-	cookie =
+	# days, before a user may vote again for this poll. If set to "session", a session cookie is created.
+	cookie = on
 	# if set, a user may vote only one time for each poll on the whole domain. Useful for polls on every page
 	cookie_domainpath = 1
 	# if set, prevent multiple voting by logging IP

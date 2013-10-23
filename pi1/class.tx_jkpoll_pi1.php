@@ -271,7 +271,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			$markerArrayQuestion["###QUESTIONTEXT###"] = $this->cObj->stdWrap($row['question'], $this->conf['rtefield_stdWrap.']);
 
 			// include link to list
-			if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'list', 's_poll') || $this->conf['list']) {
+			if ($this->getConfigValue('list', 's_poll')) {
 				// build url for linklist
 				$getParams = array_merge(
 					GeneralUtility::_GET(),
@@ -298,33 +298,21 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			$this->valid = $this->checkPollValid($check_poll_id);
 
 			// Check for logged IPs
-			if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'check_ip', 's_poll') || $this->conf['check_ip']) {
+			$ip_voted = FALSE;
+			if ($this->getConfigValue('check_ip', 's_poll')) {
 				// get timestamp after which vote is possible again
-				if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'time', 's_poll') != "") {
-					$vote_time = $GLOBALS['SIM_EXEC_TIME'] - ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'time', 's_poll') * 3600);
-				} elseif ($this->conf['check_ip_time'] != "") {
-					$vote_time = $GLOBALS['SIM_EXEC_TIME'] - $this->conf['check_ip_time'] * 3600;
-				} else {
-					$vote_time = $GLOBALS['SIM_EXEC_TIME'];
-				}
-				$res = $this->typo3Db->exec_SELECTquery(
-					'*',
-					'tx_jkpoll_iplog',
-						'pid=' . $check_poll_id . ' AND ip=' . $this->typo3Db->fullQuoteStr($this->REMOTE_ADDR, 'tx_jkpoll_iplog') . ' AND tstamp >= ' . $vote_time
-				);
-				$rows = array();
-				if ($res) {
-					while ($row = $this->typo3Db->sql_fetch_assoc($res)) {
-						$rows[] = $row;
+				$ipLockTime = intval($this->getConfigValue('check_ip_time', 's_poll', 'time'));
+				if ($ipLockTime > 0) {
+					$maxIpTimestamp = $GLOBALS['SIM_EXEC_TIME'] - $ipLockTime * 3600;
+					$res = $this->typo3Db->exec_SELECTquery(
+						'*',
+						'tx_jkpoll_iplog',
+						'pid=' . $check_poll_id . ' AND ip=' . $this->typo3Db->fullQuoteStr($this->REMOTE_ADDR, 'tx_jkpoll_iplog') . ' AND tstamp >= ' . $maxIpTimestamp
+					);
+					if ($this->typo3Db->sql_num_rows($res) > 0) {
+						$ip_voted = TRUE;
 					}
 				}
-				if (count($rows)) {
-					$ip_voted = TRUE;
-				} else {
-					$ip_voted = FALSE;
-				}
-			} else {
-				$ip_voted = FALSE;
 			}
 
 			// Check for fe_users who already voted
@@ -832,28 +820,22 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		}
 
 		// decide which type of cookie is to be set
-		if ((!intval($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'cookie', 's_poll')) && $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'cookie', 's_poll')) || (!intval($this->conf['cookie'])) && $this->conf['cookie']) {
+		$cookieConfig = $this->getConfigValue('cookie', 's_poll');
+		if (!intval($cookieConfig)) {
 			// make non-persistent cookie if "off"
-			if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'cookie', 's_poll') == "off" || $this->conf['cookie'] == "off") {
+			if ($cookieConfig == 'session') {
 				if (!setcookie($cookieName, 'voted:yes', 0, $cookiepath)) {
 					return '<div class="error">' . $this->pi_getLL('error_no_vote') . '</div>';
 				}
-			} // don't use cookies if "no"
-			elseif ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'cookie', 's_poll') == "no" || $this->conf['cookie'] == "no") {
-				// do nothing
-			} // if no value set use 30 days
-			elseif ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'cookie', 's_poll') === '' || $this->conf['cookie'] === '') {
+			}
+			// if no value set use 30 days
+			elseif ($cookieConfig == 'on') {
 				if (!setcookie($cookieName, 'voted:yes', $GLOBALS['SIM_EXEC_TIME'] + (3600 * 24 * 30), $cookiepath)) {
 					return '<div class="error">' . $this->pi_getLL('error_no_vote') . '</div>';
 				}
 			}
 		} else {
-			// delete cookie after time set via flexform
-			if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'cookie', 's_poll') && intval($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'cookie', 's_poll'))) {
-				$cookieTime = $GLOBALS['SIM_EXEC_TIME'] + (3600 * 24 * intval($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'cookie', 's_poll')));
-			} else {
-				$cookieTime = $GLOBALS['SIM_EXEC_TIME'] + (3600 * 24 * intval($this->conf['cookie']));
-			}
+			$cookieTime = $GLOBALS['SIM_EXEC_TIME'] + (3600 * 24 * intval($cookieConfig));
 			if (!setcookie($cookieName, 'voted:yes', $cookieTime, $cookiepath)) {
 				return '<div class="error">' . $this->pi_getLL('error_no_vote') . '</div>';
 			}
@@ -910,7 +892,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		}
 
 		// write IP of voter in db
-		if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'check_ip', 's_poll') || $this->conf['check_ip']) {
+		if ($this->getConfigValue('check_ip', 's_poll')) {
 			$insertFields = array(
 				'pid' => $check_poll_id,
 				'ip' => $this->REMOTE_ADDR,
@@ -981,37 +963,29 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		}
 
 		// Get the poll id from parameter or select newest active poll (only newest poll is voteable)
+		$this->voteable = TRUE;
 		if ($this->piVars['uid'] != "") {
-			if (!$this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'vote_old', 's_list')) {
-				if ($this->piVars['uid'] == $this->getLastPoll()) {
-					$this->voteable = TRUE;
-				} else {
-					$this->voteable = FALSE;
-				}
-				$this->pollID = intval($this->piVars['uid']);
-				// check if poll is translated
-				$this->pollID_parent = $this->getPollIDParent($this->pollID);
-			} else {
-				$this->pollID = intval($this->piVars['uid']);
-				$this->voteable = TRUE;
-				$this->pollID_parent = $this->getPollIDParent($this->pollID);
+			$this->pollID = intval($this->piVars['uid']);
+			if (
+				!$this->getConfigValue('vote_old', 's_list')
+				&& $this->pollID !== $this->getLastPoll()
+			) {
+				$this->voteable = FALSE;
 			}
 		} else {
 			// Get the last poll from storage page
 			$this->pollID = $this->getLastPoll();
-			$this->pollID_parent = $this->getPollIDParent($this->pollID);
 			// return false if no poll found
 			if (!$this->pollID) {
 				return FALSE;
 			}
-
-			$this->voteable = TRUE;
 
 			// send tp page with poll uid as get paramter (needed to work with extension "comments")
 			if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'comments', 's_poll') || $this->conf['comments'] || $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'comments_on_result', 's_result') || $this->conf['comments_on_result']) {
 				header('Location:' . GeneralUtility::locationHeaderUrl($this->pi_getPageLink($GLOBALS['TSFE']->id, '', array('L' => $GLOBALS['TSFE']->sys_language_content, $this->prefixId . '[uid]' => $this->pollID))));
 			}
 		}
+		$this->pollID_parent = $this->getPollIDParent($this->pollID);
 		// check if poll is available for language selected
 		$res_poll = $this->typo3Db->exec_SELECTquery(
 			'*',
@@ -1117,7 +1091,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			if ($row['l18n_parent'] != 0) {
 				$this->pollID_parent = $row['l18n_parent'];
 			}
-			return $row['uid'];
+			return intval($row['uid']);
 		}
 	}
 
@@ -1406,6 +1380,35 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		return $cObj->cObjGetSingle('USER', $conf);
 	}
 
+	/**
+	 * Reads the configuration value for the requested configuration
+	 * key from the TypoScript configuration and overwrites it with
+	 * a flexform value if there is one.
+	 *
+	 * @param string $configKey
+	 * @param string $flexFormSheet
+	 * @param null $flexFormKey The flex form key, if not set the config key will be used
+	 * @return null|string Config value or NULL if no value was found
+	 */
+	protected function getConfigValue($configKey, $flexFormSheet, $flexFormKey = NULL) {
+
+		$configValue = NULL;
+
+		if (!empty($this->conf[$configKey])) {
+			$configValue = $this->conf[$configKey];
+		}
+
+		if (!isset($flexFormKey)) {
+			$flexFormKey = $configKey;
+		}
+
+		$flexFormValue = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], $flexFormKey, $flexFormSheet);
+		if (!empty($flexFormValue)) {
+			$configValue = $flexFormValue;
+		}
+
+		return $configValue;
+	}
 
 	/**
 	 * The title will be stored in the data array unsing tx_jkpoll_poll_title
