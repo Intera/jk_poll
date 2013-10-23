@@ -661,7 +661,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 					$google_answers[] = trim($answers[$i]);
 					$google_colors[] = trim($colors[$i]);
 				}
-				$markerArrayAnswer["###PERCENTAGE_RESULT###"] = $percent . " %";
+				$markerArrayAnswer["###PERCENTAGE_RESULT###"] = $percent . "%";
 				$markerArrayAnswer["###ANSWERTEXT_RESULT###"] = trim($answers[$i]);
 				$markerArrayAnswer["###ANSWERTEXT_IMAGE###"] = $answers_description[$i];
 				$markerArrayAnswer["###ANSWERTEXT_DESCRIPTION###"] = $this->getAnswerImage($answers_image[$i]);
