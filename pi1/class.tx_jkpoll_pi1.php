@@ -266,7 +266,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 			// replace poll_header
 			$markerArrayQuestion = array();
-			$markerArrayQuestion["###TITLE###"] = $row['title'];
+			$markerArrayQuestion["###TITLE###"] = $this->renderTitle($row['title']);
 			$markerArrayQuestion["###QUESTION_IMAGE###"] = $this->getimage($this->pollID, '', '');
 			$markerArrayQuestion["###QUESTIONTEXT###"] = $this->cObj->stdWrap($row['question'], $this->conf['rtefield_stdWrap.']);
 
@@ -586,7 +586,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			$template['answer_data'] = $this->cObj->getSubpart($template['answers'], "###ANSWER_RESULT###");
 
 			$markerArrayQuestion = array();
-			$markerArrayQuestion["###TITLE###"] = $row['title'];
+			$markerArrayQuestion["###TITLE###"] = $this->renderTitle($row['title']);
 			$markerArrayQuestion["###QUESTION_IMAGE###"] = $this->getimage($this->pollID, '', '');
 			$markerArrayQuestion["###QUESTIONTEXT###"] = $this->cObj->stdWrap($row['question'], $this->conf['rtefield_stdWrap.']);
 			$content = $this->cObj->substituteMarkerArrayCached($template['poll_header'], $markerArrayQuestion);
@@ -1406,4 +1406,18 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		return $cObj->cObjGetSingle('USER', $conf);
 	}
 
+
+	/**
+	 * The title will be stored in the data array unsing tx_jkpoll_poll_title
+	 * as key. The TypoScript configuration at rendering.title will be used
+	 * ro tender the title.
+	 *
+	 * @param string $title
+	 * @return string
+	 */
+	protected function renderTitle($title) {
+		$this->cObj->data['tx_jkpoll_poll_title'] = $title;
+		$title = $this->cObj->cObjGetSingle($this->conf['rendering.']['title'], $this->conf['rendering.']['title.']);
+		return $title;
+	}
 }

@@ -90,6 +90,14 @@ plugin.tx_jkpoll_pi1 {
 	show_zero_percent = 0
 	# if set, bars will be shown with CSS
 	show_css_bars = 0
+
+	rendering {
+		title =< lib.stdheader
+		title {
+			10.setCurrent.field = tx_jkpoll_poll_title
+			stdWrap.fieldRequired = tx_jkpoll_poll_title
+		}
+	}
 }
 #[globalVar = GP:tx_jkpoll_pi1|go = savevote]
 #plugin.tx_jkpoll_pi1 = USER_INT
