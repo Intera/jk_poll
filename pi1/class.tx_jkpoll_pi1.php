@@ -109,6 +109,11 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	protected $templateCode;
 
 	/**
+	 * @var \TYPO3\CMS\Core\Database\DatabaseConnection
+	 */
+	protected $typo3Db;
+
+	/**
 	 * TRUE if current poll is valid
 	 *
 	 * @var boolean
@@ -127,6 +132,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		$this->pi_setPiVarDefaults();
 		$this->pi_loadLL();
 		$this->pi_initPIflexForm();
+		$this->typo3Db = $GLOBALS['TYPO3_DB'];
 
 		$this->pollEnableFields = $this->cObj->enableFields('tx_jkpoll_poll');
 
@@ -241,12 +247,12 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	function showpoll() {
 
 		//Get poll data
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+		$res = $this->typo3Db->exec_SELECTquery(
 			'*',
 			'tx_jkpoll_poll',
 				'uid=' . $this->pollID . ' AND sys_language_uid=' . $GLOBALS['TSFE']->sys_language_content . $this->pollEnableFields
 		);
-		if ($res && $row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+		if ($res && $row = $this->typo3Db->sql_fetch_assoc($res)) {
 
 			//Put answers and votes in array
 			$answers = explode("\n", $row['answers']);
@@ -265,7 +271,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			// write votes back to DB
 			if ($needsupdate) {
 				$dataArr['votes'] = implode("\n", $votes);
-				$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
+				$this->typo3Db->exec_UPDATEquery(
 					'tx_jkpoll_poll',
 						'uid=' . $this->pollID,
 					$dataArr
@@ -320,14 +326,14 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				} else {
 					$vote_time = $GLOBALS['SIM_EXEC_TIME'];
 				}
-				$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				$res = $this->typo3Db->exec_SELECTquery(
 					'*',
 					'tx_jkpoll_iplog',
-						'pid=' . $check_poll_id . ' AND ip=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($this->REMOTE_ADDR, 'tx_jkpoll_iplog') . ' AND tstamp >= ' . $vote_time
+						'pid=' . $check_poll_id . ' AND ip=' . $this->typo3Db->fullQuoteStr($this->REMOTE_ADDR, 'tx_jkpoll_iplog') . ' AND tstamp >= ' . $vote_time
 				);
 				$rows = array();
 				if ($res) {
-					while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+					while ($row = $this->typo3Db->sql_fetch_assoc($res)) {
 						$rows[] = $row;
 					}
 				}
@@ -343,14 +349,14 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			//Check for fe_users who already voted
 			if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'fe_user', 's_poll') || $this->conf['check_user']) {
 				if ($GLOBALS['TSFE']->fe_user->user['uid'] != '') {
-					$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+					$res = $this->typo3Db->exec_SELECTquery(
 						'*',
 						'tx_jkpoll_userlog',
 							'pid=' . $check_poll_id . ' AND fe_user=\'' . $GLOBALS['TSFE']->fe_user->user['uid'] . '\''
 					);
 					$rows = array();
 					if ($res) {
-						while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+						while ($row = $this->typo3Db->sql_fetch_assoc($res)) {
 							$rows[] = $row;
 						}
 					}
@@ -503,25 +509,25 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	 * @return string HTML to display in the frontend
 	 */
 	function showresults() {
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+		$res = $this->typo3Db->exec_SELECTquery(
 			'*',
 			'tx_jkpoll_poll',
 				'uid=' . $this->pollID . ' AND sys_language_uid=' . $GLOBALS['TSFE']->sys_language_content . $this->pollEnableFields
 		);
 
 		//Get poll data
-		if ($res && $row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+		if ($res && $row = $this->typo3Db->sql_fetch_assoc($res)) {
 
 			//Get the votes, answers and colors
 			$votes = explode("\n", $row['votes']);
 			//if poll is translation get votes from parent poll
 			if ($this->pollID_parent != 0 && (!$this->conf['vote_language_specific'] && !$this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'vote_language_specific', 'sDEF'))) {
-				$res_votes = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				$res_votes = $this->typo3Db->exec_SELECTquery(
 					'*',
 					'tx_jkpoll_poll',
 						'uid=' . $this->pollID_parent . $this->pollEnableFields
 				);
-				if ($res_votes && $row_votes = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res_votes)) {
+				if ($res_votes && $row_votes = $this->typo3Db->sql_fetch_assoc($res_votes)) {
 					$votes = explode("\n", $row_votes['votes']);
 				}
 			}
@@ -790,14 +796,14 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		//Exit if fe_user already voted
 		if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'fe_user', 's_poll')) {
 			if ($GLOBALS['TSFE']->fe_user->user['uid'] != '') {
-				$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				$res = $this->typo3Db->exec_SELECTquery(
 					'*',
 					'tx_jkpoll_userlog',
 						'pid=' . $check_poll_id . ' AND fe_user=\'' . $GLOBALS['TSFE']->fe_user->user['uid'] . '\''
 				);
 				$rows = array();
 				if ($res) {
-					while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+					while ($row = $this->typo3Db->sql_fetch_assoc($res)) {
 						$rows[] = $row;
 					}
 				}
@@ -820,14 +826,14 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				$vote_time = $GLOBALS['SIM_EXEC_TIME'];
 			}
 
-			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			$res = $this->typo3Db->exec_SELECTquery(
 				'*',
 				'tx_jkpoll_iplog',
-					'pid=' . $check_poll_id . ' AND ip=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($this->REMOTE_ADDR, 'tx_jkpoll_iplog') . ' AND tstamp >= ' . $vote_time
+					'pid=' . $check_poll_id . ' AND ip=' . $this->typo3Db->fullQuoteStr($this->REMOTE_ADDR, 'tx_jkpoll_iplog') . ' AND tstamp >= ' . $vote_time
 			);
 			$rows = array();
 			if ($res) {
-				while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+				while ($row = $this->typo3Db->sql_fetch_assoc($res)) {
 					$rows[] = $row;
 				}
 			}
@@ -876,20 +882,20 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 		//Get the poll data so it can be updated
 		if ($this->pollID_parent != 0 && (!$this->conf['vote_language_specific'] && !$this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'vote_language_specific', 'sDEF'))) {
-			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			$res = $this->typo3Db->exec_SELECTquery(
 				'*',
 				'tx_jkpoll_poll',
 					'uid=' . $this->pollID_parent . $this->pollEnableFields
 			);
 		} else {
-			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			$res = $this->typo3Db->exec_SELECTquery(
 				'*',
 				'tx_jkpoll_poll',
 					'uid=' . $this->pollID . $this->pollEnableFields
 			);
 		}
 		if ($res) {
-			$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
+			$row = $this->typo3Db->sql_fetch_assoc($res);
 		}
 
 		//update number of votes
@@ -910,13 +916,13 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		$dataArr['votes'] = implode("\n", $newvotes);
 		$dataArr['votes_count'] = $votes_count;
 		if ($this->pollID_parent != 0 && (!$this->conf['vote_language_specific'] && !$this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'vote_language_specific', 'sDEF'))) {
-			$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
+			$this->typo3Db->exec_UPDATEquery(
 				'tx_jkpoll_poll',
 					'uid=' . $this->pollID_parent,
 				$dataArr
 			);
 		} else {
-			$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
+			$this->typo3Db->exec_UPDATEquery(
 				'tx_jkpoll_poll',
 					'uid=' . $this->pollID,
 				$dataArr
@@ -930,7 +936,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				'ip' => $this->REMOTE_ADDR,
 				'tstamp' => $GLOBALS['SIM_EXEC_TIME']
 			);
-			$GLOBALS['TYPO3_DB']->exec_INSERTquery(
+			$this->typo3Db->exec_INSERTquery(
 				'tx_jkpoll_iplog',
 				$insertFields
 			);
@@ -943,7 +949,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				'fe_user' => $GLOBALS['TSFE']->fe_user->user['uid'],
 				'tstamp' => $GLOBALS['SIM_EXEC_TIME']
 			);
-			$GLOBALS['TYPO3_DB']->exec_INSERTquery(
+			$this->typo3Db->exec_INSERTquery(
 				'tx_jkpoll_userlog',
 				$insertFields
 			);
@@ -1026,37 +1032,37 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			}
 		}
 		//check if poll is available for language selected
-		$res_poll = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+		$res_poll = $this->typo3Db->exec_SELECTquery(
 			'*',
 			'tx_jkpoll_poll',
 				'uid=' . $this->pollID . ' AND sys_language_uid=' . $GLOBALS['TSFE']->sys_language_content . $this->pollEnableFields
 		);
-		if ($res_poll && $row_poll = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res_poll)) {
+		if ($res_poll && $row_poll = $this->typo3Db->sql_fetch_assoc($res_poll)) {
 			$poll_available = TRUE;
 		} else {
 			$poll_available = FALSE;
 		}
 		//not default language and poll with given id isn't available in current language
 		if ($GLOBALS['TSFE']->sys_language_content != '0' && !$poll_available) {
-			$res_language = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			$res_language = $this->typo3Db->exec_SELECTquery(
 				'*',
 				'tx_jkpoll_poll',
 					'l18n_parent=' . $this->pollID . ' AND sys_language_uid=' . $GLOBALS['TSFE']->sys_language_content . $this->pollEnableFields
 			);
 			//set pollid to id of language
-			if ($res_language && $row_language = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res_language)) {
+			if ($res_language && $row_language = $this->typo3Db->sql_fetch_assoc($res_language)) {
 				$this->pollID = $row_language['uid'];
 				if ($this->pollID == $this->getLastPoll()) {
 					$this->voteable = TRUE;
 				}
 			}
 		} elseif (!$poll_available) {
-			$res_language = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			$res_language = $this->typo3Db->exec_SELECTquery(
 				'*',
 				'tx_jkpoll_poll',
 					'uid=' . $this->pollID . $this->pollEnableFields
 			);
-			if ($res_language && $row_language = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res_language)) {
+			if ($res_language && $row_language = $this->typo3Db->sql_fetch_assoc($res_language)) {
 				$this->pollID = $row_language['l18n_parent'];
 			}
 		}
@@ -1072,28 +1078,28 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	 * @return integer parent uid of poll (0 if none found)
 	 */
 	function getPollIDParent($uid) {
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+		$res = $this->typo3Db->exec_SELECTquery(
 			'*',
 			'tx_jkpoll_poll',
 				'sys_language_uid=' . $GLOBALS['TSFE']->sys_language_content . ' AND pid=' . $this->pid . ' AND uid=' . $uid . $this->pollEnableFields,
 			'',
 			'crdate DESC'
 		);
-		if ($res && $row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+		if ($res && $row = $this->typo3Db->sql_fetch_assoc($res)) {
 			if ($row['l18n_parent'] != 0) {
 				return $row['l18n_parent'];
 			} else {
 				return 0;
 			}
 		} else { // check if poll is translation of another poll
-			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			$res = $this->typo3Db->exec_SELECTquery(
 				'*',
 				'tx_jkpoll_poll',
 					'sys_language_uid=' . $GLOBALS['TSFE']->sys_language_content . ' AND pid=' . $this->pid . ' AND l18n_parent=' . $uid . $this->pollEnableFields,
 				'',
 				'crdate DESC'
 			);
-			if ($res && $row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+			if ($res && $row = $this->typo3Db->sql_fetch_assoc($res)) {
 				$this->pollID = $row['l18n_parent'];
 				return $uid;
 			} else {
@@ -1114,7 +1120,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 		//Find any poll records on the chosen page.
 		//Polls that are not hidden or deleted and that are active according to start and end date
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+		$res = $this->typo3Db->exec_SELECTquery(
 			'uid,l18n_parent',
 			'tx_jkpoll_poll',
 				'pid=' . $this->pid . ' AND sys_language_uid=' . $GLOBALS['TSFE']->sys_language_content . $this->pollEnableFields,
@@ -1123,10 +1129,10 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		);
 
 		//return false if no poll found
-		if ($GLOBALS['TYPO3_DB']->sql_num_rows($res) == 0) {
+		if ($this->typo3Db->sql_num_rows($res) == 0) {
 			return FALSE;
 		} else {
-			$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
+			$row = $this->typo3Db->sql_fetch_assoc($res);
 			if ($row['l18n_parent'] != 0) {
 				$this->pollID_parent = $row['l18n_parent'];
 			}
@@ -1176,7 +1182,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 		//Find any poll records on the chosen page.
 		//Polls that are not hidden or deleted and that are active according to start and end date
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+		$res = $this->typo3Db->exec_SELECTquery(
 			'uid, title, l18n_parent',
 			'tx_jkpoll_poll',
 				'pid=' . $this->pid . ' AND sys_language_uid=' . $GLOBALS['TSFE']->sys_language_content . $this->pollEnableFields,
@@ -1192,9 +1198,9 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		if ($res) {
 			//show first poll in list?
 			if (!$this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'show_first', 's_list') && !$this->conf['list_first']) {
-				$GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
+				$this->typo3Db->sql_fetch_assoc($res);
 			}
-			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+			while ($row = $this->typo3Db->sql_fetch_assoc($res)) {
 				$markerArray = array();
 				$getParams = array(
 					$this->prefixId . "[uid]" => $row['uid'],
@@ -1276,23 +1282,23 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	function getimage($uid, $width, $height) {
 
 		//Get poll data
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+		$res = $this->typo3Db->exec_SELECTquery(
 			'*',
 			'tx_jkpoll_poll',
 				'uid=' . $uid
 		);
 		if ($res) {
-			$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
+			$row = $this->typo3Db->sql_fetch_assoc($res);
 		}
 
 		if ($this->pollID_parent != 0) {
-			$res_parent = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			$res_parent = $this->typo3Db->exec_SELECTquery(
 				'*',
 				'tx_jkpoll_poll',
 					'uid=' . $this->pollID_parent
 			);
 			if ($res_parent) {
-				$row_parent = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res_parent);
+				$row_parent = $this->typo3Db->sql_fetch_assoc($res_parent);
 			}
 
 			if (empty($row_parent['image'])) {
@@ -1379,12 +1385,12 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	 */
 	function checkPollValid($uid) {
 
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+		$res = $this->typo3Db->exec_SELECTquery(
 			'*',
 			'tx_jkpoll_poll',
 				'uid=' . $uid . $this->pollEnableFields
 		);
-		if ($res && $row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+		if ($res && $row = $this->typo3Db->sql_fetch_assoc($res)) {
 			if ($row['valid_till'] != 0) {
 				if ($GLOBALS['SIM_EXEC_TIME'] > $row['valid_till']) {
 					$valid = FALSE;
