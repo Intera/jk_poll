@@ -206,6 +206,9 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				case 'list':
 					$content = $this->showlist();
 					break;
+				case 'result':
+					$content = $this->showresults();
+					break;
 				default:
 					$content = $this->showpoll();
 					break;
