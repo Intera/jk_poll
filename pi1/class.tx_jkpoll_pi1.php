@@ -30,6 +30,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @author Johannes Krausmueller <johannes@krausmueller.de>
  */
 class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
+
 	public $prefixId = 'tx_jkpoll_pi1'; // Same as class name
 	public $scriptRelPath = 'pi1/class.tx_jkpoll_pi1.php'; // Path to this script relative to the extension dir.
 	public $extKey = 'jk_poll'; // The extension key.
@@ -255,6 +256,8 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			'tx_jkpoll_poll',
 				'uid=' . $this->pollID . ' AND sys_language_uid=' . $GLOBALS['TSFE']->sys_language_content . $this->pollEnableFields
 		);
+
+		$content = '';
 		if ($res && $row = $this->typo3Db->sql_fetch_assoc($res)) {
 
 			//Put answers and votes in array
@@ -377,6 +380,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 			//Check for cookie. If not found show poll, if found show results.
 			$cookieName = 't3_tx_jkpoll_' . $check_poll_id;
+			$resultcontentAnswer = '';
 			if (!isset($_COOKIE[$cookieName]) && !$ip_voted && !$user_voted && $this->voteable && $this->valid) {
 
 				//Make radio buttons
@@ -546,6 +550,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			}
 
 			//Limit the amount of answers shown to the top x
+			$limit = 0;
 			if ($this->conf['result_limit']) {
 				$limit = $this->conf['result_limit'];
 			} elseif ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'result_limit', 's_result')) {
@@ -609,7 +614,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			$markerArrayQuestion["###TITLE###"] = $row['title'];
 			$markerArrayQuestion["###QUESTION_IMAGE###"] = $this->getimage($this->pollID, '', '');
 			$markerArrayQuestion["###QUESTIONTEXT###"] = $this->cObj->stdWrap($row['question'], $this->conf['rtefield_stdWrap.']);
-			$content = $this->cObj->substituteMarkerArrayCached($template['poll_header'], $markerArrayQuestion, $subpartArray, $wrappedSubpartArray);
+			$content = $this->cObj->substituteMarkerArrayCached($template['poll_header'], $markerArrayQuestion);
 
 			$markerArray["###VOTES_LABEL###"] = $this->LL_votes_label;
 			$markerArray["###VOTES###"] = $total;
@@ -630,10 +635,10 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 								break;
 						}
 			*/
-			$template['answers'] = $this->cObj->substituteMarkerArrayCached($template['answers'], $markerArray, $subpartArray, $wrappedSubpartArray);
+			$template['answers'] = $this->cObj->substituteMarkerArrayCached($template['answers'], $markerArray);
 
 			//Get highest result
-			$i = 0;
+			$percents = 0;
 			foreach ($votes as $i => $a) {
 				if ($total > 0) {
 					$percent = round(($votes[$i] / $total) * 100, 1);
@@ -643,6 +648,11 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				$percents[++$i] = $percent;
 			}
 			$max = max($percents);
+
+			$google_percents = array();
+			$google_answers = array();
+			$google_colors = array();
+			$resultcontentAnswer = '';
 
 			foreach ($answers as $i => $a) {
 				if (trim($colors[$i]) == "") {
@@ -709,7 +719,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 						$markerArrayAnswer["###AMOUNT_VOTES_LABEL###"] = $this->LL_amount_votes_label;
 						break;
 				}
-				$resultcontentAnswer .= $this->cObj->substituteMarkerArrayCached($template['answer_data'], $markerArrayAnswer, $subpartArray, $wrappedSubpartArray);
+				$resultcontentAnswer .= $this->cObj->substituteMarkerArrayCached($template['answer_data'], $markerArrayAnswer);
 			}
 			if ($type == 2) {
 				if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'google_width', 's_result') != '') {
@@ -727,7 +737,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 					$google_height = "100";
 				}
 				$markerArray["###GOOGLE_CHART###"] = "http://chart.apis.google.com/chart?cht=p3&chd=t:" . implode(",", $google_percents) . "&chs=" . $google_width . "x" . $google_height . "&chl=" . implode("|", $google_answers) . "&chco=" . implode("|", $google_colors) . "";
-				$template['answers'] = $this->cObj->substituteMarkerArrayCached($template['answers'], $markerArray, $subpartArray, $wrappedSubpartArray);
+				$template['answers'] = $this->cObj->substituteMarkerArrayCached($template['answers'], $markerArray);
 			}
 			$subpartArray["###ANSWER_RESULT###"] = $resultcontentAnswer;
 			$subpartArray["###EXPLANATION###"] = $this->cObj->stdWrap($row['explanation'], $this->conf['rtefield_stdWrap.']);
@@ -851,6 +861,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		}
 
 		//decide if cookie-path is to be set or not
+		$cookiepath = NULL;
 		if ($this->conf['cookie_domainpath'] == 1) {
 			$cookiepath = '/';
 		}
@@ -902,18 +913,19 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		}
 
 		//update number of votes
-		$votes = explode("\n", $row['votes']);
+		$votes = isset($row['votes']) ? explode("\n", $row['votes']) : array();
+		$newvotes = array();
 		foreach ($votes as $i => $a) {
 			//find the answer that was voted for
 			foreach ($this->answer as $value) {
 				if ($i == $value) {
 					//update no. of votes
-					$a = trim($votes[$i]) + 1;
+					$a = intval($votes[$i]) + 1;
 				}
 			}
 			$newvotes[] = $a;
 		}
-		$votes_count = $row['votes_count'] + 1;
+		$votes_count = isset($row['votes_count']) ? $row['votes_count'] + 1 : 1;
 
 		// write answers back to db
 		$dataArr['votes'] = implode("\n", $newvotes);
@@ -970,6 +982,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			$getParams[$this->prefixId . '[uid]'] = $this->pollID;
 			$getParams[$this->prefixId . '[uid_comments]'] = $this->pollID;
 		}
+		$content = '';
 		if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'PIDforward', 's_poll')) {
 			header('Location:' . GeneralUtility::locationHeaderUrl($this->pi_getPageLink($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'PIDforward', 's_poll'), '', $getParams)));
 		} elseif ($this->conf['PIDforward']) {
@@ -979,7 +992,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'comments', 's_poll') || $this->conf['comments'] || $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'comments_on_result', 's_result') || $this->conf['comments_on_result']) {
 				header('Location:' . GeneralUtility::locationHeaderUrl($this->pi_getPageLink($GLOBALS['TSFE']->id, '', $getParams)));
 			} else {
-				$content = $this->showresults();
+				$content .= $this->showresults();
 			}
 		}
 
@@ -1197,7 +1210,9 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		$template['poll_list'] = $this->cObj->getSubpart($this->templateCode, "###POLL_LIST###");
 		$template['link'] = $this->cObj->getSubpart($template['poll_list'], "###POLL_LINK###");
 		$template['result'] = $this->cObj->getSubpart($template['link'], "###POLL_RESULT###");
+		$content_tmp = '';
 
+		$items = array();
 		if ($res) {
 			//show first poll in list?
 			if (!$this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'show_first', 's_list') && !$this->conf['list_first']) {
@@ -1241,6 +1256,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			}
 		}
 
+		$pagebrowserContent = '';
 		if ($pagebrowser) {
 			// Number of list items per page
 			$itemsPerPage = ($this->conf['list_pagebrowser_items']) ? $this->conf['list_pagebrowser_items'] : $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'pagebrowser_items', 's_list');
@@ -1252,6 +1268,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			foreach ($items[intval($this->piVars['page'])] as $i) {
 				$subpartArray["###POLL_LINK###"] .= $i;
 			}
+			$pagebrowserContent = $this->getListGetPageBrowser($numberOfPages);
 		} else {
 			$subpartArray = array();
 			$subpartArray["###POLL_LINK###"] = $content_tmp;
@@ -1264,12 +1281,8 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			$subpartArray["###LINKVIEW###"] = '';
 		}
 
-		$content .= $this->cObj->substituteMarkerArrayCached($template['poll_list'], array(), $subpartArray, array());
-
-		// Add page browser
-		if ($pagebrowser) {
-			$content .= $this->getListGetPageBrowser($numberOfPages);
-		}
+		$content = $this->cObj->substituteMarkerArrayCached($template['poll_list'], array(), $subpartArray, array());
+		$content .= $pagebrowserContent;
 
 		return $content;
 	}
@@ -1280,7 +1293,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	 * @param integer $uid : uid of poll
 	 * @param integer $width : width of the picture
 	 * @param integer $height : height of the picture
-	 * @return integer HTML for the image
+	 * @return string HTML for the image
 	 */
 	function getimage($uid, $width, $height) {
 
@@ -1292,6 +1305,8 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		);
 		if ($res) {
 			$row = $this->typo3Db->sql_fetch_assoc($res);
+		} else {
+			return '';
 		}
 
 		if ($this->pollID_parent != 0) {
@@ -1340,7 +1355,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		if ($clickenlarge) {
 			$imgTSConfig['imageLinkWrap'] = 1;
 			$imgTSConfig['imageLinkWrap.']['JSwindow'] = 1;
-			$imgTSConfig['imageLinkWrap.']['bodyTag'] = '<body bgcolor="black">';
+			$imgTSConfig['imageLinkWrap.']['bodyTag'] = '<body style="background-color: black;">';
 			$imgTSConfig['imageLinkWrap.']['JSwindow.']['newWindow'] = 0;
 			$imgTSConfig['imageLinkWrap.']['JSwindow.']['expand'] = '17,20';
 			$imgTSConfig['imageLinkWrap.']['enable'] = 1;
