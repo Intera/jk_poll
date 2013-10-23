@@ -141,7 +141,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 		// this will convert any string which is supplied as $_SERVER['REMOTE_ADDR'] into a valid ip address
 		$currentRemoteAddress = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('REMOTE_ADDR');
-		$this->REMOTE_ADDR =  long2ip(ip2long($currentRemoteAddress));
+		$this->REMOTE_ADDR = long2ip(ip2long($currentRemoteAddress));
 
 		// initialize sr_freecap
 		if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'captcha', 's_poll') == "sr_freecap" || $this->conf['captcha'] == "sr_freecap") {
