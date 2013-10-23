@@ -20,7 +20,6 @@
 			<label index="amount_onevote_label">1 vote</label>
 			<label index="amount_votes_label">votes</label>
 			<label index="submit_button">Submit</label>
-			<label index="submit_js_linktext">Submit</label>
 			<label index="linklist">old polls</label>
 			<label index="link_to_poll">vote on this poll</label>
 			<label index="link_to_result">switch to result of poll</label>
@@ -46,7 +45,6 @@
 			<label index="amount_onevote_label">1 Stimme</label>
 			<label index="amount_votes_label">Stimmen</label>
 			<label index="submit_button">Abstimmen</label>
-			<label index="submit_js_linktext">Abstimmen</label>
 			<label index="linklist">alte Umfragen</label>
 			<label index="link_to_poll">für diese Umfrage abstimmen</label>
 			<label index="link_to_result">zum Ergebnis der Umfrage wechseln</label>

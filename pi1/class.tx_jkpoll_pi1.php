@@ -151,34 +151,9 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			}
 		}
 
-		//Get translated text labels from locallang
-		/* !!!!! mit suchen und ersetzen an der entsprechenden Stelle ermitteln !!!! */
-		$this->LL_no_poll_found = $this->pi_getLL('no_poll_found');
-		$this->LL_poll_not_visible = $this->pi_getLL('poll_not_visible');
-		$this->LL_votes_total = $this->pi_getLL('votes_total');
-		//		$this->LL_votes_label = $this->pi_getLL('votes_label');
-		$this->LL_novote_label = $this->pi_getLL('novote_label');
-		$this->LL_onevote_label = $this->pi_getLL('onevote_label');
-		$this->LL_votes_label = $this->pi_getLL('votes_label');
-		$this->LL_amount_novote_label = $this->pi_getLL('amount_novote_label');
-		$this->LL_amount_onevote_label = $this->pi_getLL('amount_onevote_label');
-		$this->LL_amount_votes_label = $this->pi_getLL('amount_votes_label');
-		$this->LL_submit_button = $this->pi_getLL('submit_button');
-		$this->LL_submit_js_linktext = ($this->pi_getLL('submit_js_linktext')) ? $this->pi_getLL('submit_js_linktext') : $this->pi_getLL('submit_button');
-		$this->LL_linklist = $this->pi_getLL('linklist');
-		$this->LL_link_to_poll = $this->pi_getLL('link_to_poll');
-		$this->LL_link_to_result = $this->pi_getLL('link_to_result');
-		$this->LL_linkview = $this->pi_getLL('linkview');
-		$this->LL_has_voted = $this->pi_getLL('has_voted');
-		$this->LL_no_login = $this->pi_getLL('no_login');
-		$this->LL_error_no_vote = $this->pi_getLL('error_no_vote');
-		$this->LL_wrong_captcha = $this->pi_getLL('wrong_captcha');
-		$this->LL_error_no_vote_selected = $this->pi_getLL('error_no_vote_selected');
-		$this->LL_limit_other = $this->pi_getLL('limit_other');
-
 		//Get ID of poll ($this->PollID) or error msg. if no poll was found
 		if (!$this->getPollID()) {
-			$content = '<div class="error">' . $this->LL_no_poll_found . '</div>';
+			$content = '<div class="error">' . $this->pi_getLL('no_poll_found') . '</div>';
 			return $this->pi_wrapInBaseClass($content);
 		}
 
@@ -306,7 +281,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 					)
 				);
 				$ll_alink = $this->pi_getPageLink($GLOBALS['TSFE']->id, '', $getParams);
-				$subpartArray["###LINKLIST###"] = '<a class="jk_poll_linklist" href="' . $ll_alink . '">' . $this->LL_linklist . '</a>';
+				$subpartArray["###LINKLIST###"] = '<a class="jk_poll_linklist" href="' . $ll_alink . '">' . $this->pi_getLL('linklist') . '</a>';
 			} else {
 				$subpartArray["###LINKLIST###"] = '';
 			}
@@ -430,14 +405,14 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 				$alink = $this->pi_getPageLink($GLOBALS['TSFE']->id, '', $getParams);
 
-				//				$markerArray["###SUBMIT###"] = '<input class="pollsubmit" type="submit" value="'.$this->LL_submit_button.'" />';
+				//				$markerArray["###SUBMIT###"] = '<input class="pollsubmit" type="submit" value="'.$this->pi_getLL('submit_button').'" />';
 				// store [go] (for marking submitted forms) and a [pollID] (for multiple polls on the same page)
 				$markerArray["###SUBMIT###"] = '
 					<input type="hidden" name="' . $this->prefixId . '[pollID]" value="' . $this->pollID . '" />
 					<input type="hidden" name="' . $this->prefixId . '[go]" value="savevote" />
 					';
 				if (!$this->conf['custom_submit']) {
-					$markerArray["###SUBMIT###"] .= '<input class="pollsubmit" type="submit" value="' . $this->LL_submit_button . '" ' . (($this->conf['submitbutton_params']) ? $this->conf['submitbutton_params'] . ' ' : '') . '/>';
+					$markerArray["###SUBMIT###"] .= '<input class="pollsubmit" type="submit" value="' . $this->pi_getLL('submit_button') . '" ' . (($this->conf['submitbutton_params']) ? $this->conf['submitbutton_params'] . ' ' : '') . '/>';
 				} else {
 					$markerArray["###SUBMIT###"] .= $this->conf['custom_submit'];
 				}
@@ -468,7 +443,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 					//build url for linklist
 					$ll_getParams = array($this->prefixId . '[go]' => 'result', $this->prefixId . '[uid]' => $this->pollID);
 					$ll_alink = $this->pi_getPageLink($GLOBALS['TSFE']->id, '', $ll_getParams);
-					$markerArray["###LINK_TO_RESULT###"] = '<a class="jk_poll_link_to_result" href="' . $ll_alink . '">' . $this->LL_link_to_result . '</a>';
+					$markerArray["###LINK_TO_RESULT###"] = '<a class="jk_poll_link_to_result" href="' . $ll_alink . '">' . $this->pi_getLL('link_to_result') . '</a>';
 				} else {
 					$markerArray["###LINK_TO_RESULT###"] = '';
 				}
@@ -478,7 +453,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 					//build url for linklist
 					$ll_getParams = array($this->prefixId . '[go]' => 'list');
 					$ll_alink = $this->pi_getPageLink($GLOBALS['TSFE']->id, '', $ll_getParams);
-					$markerArray["###LINKLIST###"] = '<a class="jk_poll_linklist" href="' . $ll_alink . '">' . $this->LL_linklist . '</a>';
+					$markerArray["###LINKLIST###"] = '<a class="jk_poll_linklist" href="' . $ll_alink . '">' . $this->pi_getLL('linklist') . '</a>';
 				} else {
 					$markerArray["###LINKLIST###"] = '';
 				}
@@ -506,7 +481,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 			return $content;
 		} else {
-			return '<div class="error">' . $this->LL_poll_not_visible . '</div>';
+			return '<div class="error">' . $this->pi_getLL('poll_not_visible') . '</div>';
 		}
 	}
 
@@ -572,7 +547,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 						$other += $rest[$i];
 					}
 					$votes[] = $other;
-					$answers[] = $this->LL_limit_other;
+					$answers[] = $this->pi_getLL('limit_other');
 					//$colors[] = "blue";
 				}
 			}
@@ -616,25 +591,10 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			$markerArrayQuestion["###QUESTIONTEXT###"] = $this->cObj->stdWrap($row['question'], $this->conf['rtefield_stdWrap.']);
 			$content = $this->cObj->substituteMarkerArrayCached($template['poll_header'], $markerArrayQuestion);
 
-			$markerArray["###VOTES_LABEL###"] = $this->LL_votes_label;
+			$markerArray["###VOTES_LABEL###"] = $this->pi_getLL('votes_label');
 			$markerArray["###VOTES###"] = $total;
 			$markerArray["###VOTES_COUNT###"] = $row['votes_count'];
 
-			/*			switch ($total) {
-							case 0:
-								$markerArray["###VOTES###"] = ($this->LL_novote_label) ? '' : $total;
-								$markerArray["###VOTES_LABEL###"] = ($this->LL_novote_label) ? $this->LL_novote_label : $this->LL_votes_label;
-								break;
-							case 1:
-								$markerArray["###VOTES###"] = ($this->LL_onevote_label) ? '' : $total;
-								$markerArray["###VOTES_LABEL###"] = ($this->LL_onevote_label) ? $this->LL_onevote_label : $this->LL_votes_label;
-								break;
-							default:
-								$markerArray["###VOTES###"] = $total;
-								$markerArray["###VOTES_LABEL###"] = $this->LL_votes_label;
-								break;
-						}
-			*/
 			$template['answers'] = $this->cObj->substituteMarkerArrayCached($template['answers'], $markerArray);
 
 			//Get highest result
@@ -705,18 +665,23 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				$markerArrayAnswer["###ANSWERTEXT_RESULT###"] = trim($answers[$i]);
 				$markerArrayAnswer["###ANSWERTEXT_IMAGE###"] = $answers_description[$i];
 				$markerArrayAnswer["###ANSWERTEXT_DESCRIPTION###"] = $this->getAnswerImage($answers_image[$i]);
+				$voteAmountLabel = $this->pi_getLL('amount_votes_label');
 				switch ($votes[$i]) {
 					case 0:
-						$markerArrayAnswer["###AMOUNT_VOTES###"] = ($this->LL_amount_novote_label) ? '' : $votes[$i] . ' ';
-						$markerArrayAnswer["###AMOUNT_VOTES_LABEL###"] = ($this->LL_amount_novote_label) ? $this->LL_amount_novote_label : $markerArrayAnswer["###AMOUNT_VOTES_LABEL###"];
+						// If a special label for no votes exists use that, otherwise use the amount of votes
+						$noVoteLabel = $this->pi_getLL('amount_novote_label');
+						$markerArrayAnswer["###AMOUNT_VOTES###"] = $noVoteLabel ? '' : $votes[$i] . ' ';
+						$markerArrayAnswer["###AMOUNT_VOTES_LABEL###"] = $noVoteLabel ? $noVoteLabel : $voteAmountLabel;
 						break;
 					case 1:
-						$markerArrayAnswer["###AMOUNT_VOTES###"] = ($this->LL_amount_onevote_label) ? '' : $votes[$i] . ' ';
-						$markerArrayAnswer["###AMOUNT_VOTES_LABEL###"] = ($this->LL_amount_onevote_label) ? $this->LL_amount_onevote_label : $markerArrayAnswer["###AMOUNT_VOTES_LABEL###"];
+						// If a special label for one vote exists use that, otherwise use the amount of votes
+						$oneVoteLabel = $this->pi_getLL('amount_novote_label');
+						$markerArrayAnswer["###AMOUNT_VOTES###"] = $oneVoteLabel ? '' : $votes[$i] . ' ';
+						$markerArrayAnswer["###AMOUNT_VOTES_LABEL###"] = $oneVoteLabel ? $oneVoteLabel : $voteAmountLabel;
 						break;
 					default:
 						$markerArrayAnswer["###AMOUNT_VOTES###"] = $votes[$i] . ' ';
-						$markerArrayAnswer["###AMOUNT_VOTES_LABEL###"] = $this->LL_amount_votes_label;
+						$markerArrayAnswer["###AMOUNT_VOTES_LABEL###"] = $voteAmountLabel;
 						break;
 				}
 				$resultcontentAnswer .= $this->cObj->substituteMarkerArrayCached($template['answer_data'], $markerArrayAnswer);
@@ -747,7 +712,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				//build url for linklist
 				$ll_getParams = array($this->prefixId . '[go]' => 'poll', $this->prefixId . '[uid]' => $this->pollID);
 				$ll_alink = $this->pi_getPageLink($GLOBALS['TSFE']->id, '', $ll_getParams);
-				$subpartArray["###LINK_TO_POLL###"] = '<a class="jk_poll_link_to_poll" href="' . $ll_alink . '">' . $this->LL_link_to_poll . '</a>';
+				$subpartArray["###LINK_TO_POLL###"] = '<a class="jk_poll_link_to_poll" href="' . $ll_alink . '">' . $this->pi_getLL('link_to_poll') . '</a>';
 			} else {
 				$subpartArray["###LINK_TO_POLL###"] = '';
 			}
@@ -757,7 +722,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				//build url for linklist
 				$ll_getParams = array($this->prefixId . '[go]' => 'list');
 				$ll_alink = $this->pi_getPageLink($GLOBALS['TSFE']->id, '', $ll_getParams);
-				$subpartArray["###LINKLIST###"] = '<a class="jk_poll_linklist" href="' . $ll_alink . '">' . $this->LL_linklist . '</a>';
+				$subpartArray["###LINKLIST###"] = '<a class="jk_poll_linklist" href="' . $ll_alink . '">' . $this->pi_getLL('linklist') . '</a>';
 			} else {
 				$subpartArray["###LINKLIST###"] = '';
 			}
@@ -765,7 +730,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			$content .= $this->cObj->substituteMarkerArrayCached($template["answers"], array(), $subpartArray, array());
 			return $content;
 		} else {
-			return '<div class="error">' . $this->LL_poll_not_visible . '</div>';
+			return '<div class="error">' . $this->pi_getLL('poll_not_visible') . '</div>';
 		}
 	}
 
@@ -785,7 +750,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		$cookieName = 't3_tx_jkpoll_' . $check_poll_id;
 		//Exit if cookie exists
 		if (isset($_COOKIE[$cookieName])) {
-			return '<div class="error">' . $this->LL_has_voted . '</div>';
+			return '<div class="error">' . $this->pi_getLL('has_voted') . '</div>';
 		}
 
 		//Exit if captcha was not right
@@ -799,10 +764,10 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 					$captchaStr = -1;
 				}
 				if (!($captchaStr === -1 || ($captchaStr && $this->captcha === $captchaStr))) {
-					return '<div class="error">' . $this->LL_wrong_captcha . '</div>';
+					return '<div class="error">' . $this->pi_getLL('wrong_captcha') . '</div>';
 				}
 			} elseif (($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'captcha', 's_poll') == "sr_freecap" || $this->conf['captcha'] == "sr_freecap") && is_object($this->freeCap) && !$this->freeCap->checkWord($this->sr_captcha)) {
-				return '<div class="error">' . $this->LL_wrong_captcha . '</div>';
+				return '<div class="error">' . $this->pi_getLL('wrong_captcha') . '</div>';
 			}
 		}
 
@@ -821,10 +786,10 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 					}
 				}
 				if (count($rows)) {
-					return '<div class="error">' . $this->LL_has_voted . '</div>';
+					return '<div class="error">' . $this->pi_getLL('has_voted') . '</div>';
 				}
 			} else {
-				return '<div class="error">' . $this->LL_no_login . '</div>';
+				return '<div class="error">' . $this->pi_getLL('no_login') . '</div>';
 			}
 		}
 
@@ -851,13 +816,13 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				}
 			}
 			if (count($rows)) {
-				return '<div class="error">' . $this->LL_has_voted . '</div>';
+				return '<div class="error">' . $this->pi_getLL('has_voted') . '</div>';
 			}
 		}
 
 		//check if an answer was selected
 		if (!intval($this->answer[0]) && $this->answer[0] != '0') {
-			return '<div class="error">' . $this->LL_error_no_vote_selected . '</div>';
+			return '<div class="error">' . $this->pi_getLL('error_no_vote_selected') . '</div>';
 		}
 
 		//decide if cookie-path is to be set or not
@@ -871,7 +836,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			//make non-persistent cookie if "off"
 			if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'cookie', 's_poll') == "off" || $this->conf['cookie'] == "off") {
 				if (!setcookie($cookieName, 'voted:yes', 0, $cookiepath)) {
-					return '<div class="error">' . $this->LL_error_no_vote . '</div>';
+					return '<div class="error">' . $this->pi_getLL('error_no_vote') . '</div>';
 				}
 			} //don't use cookies if "no"
 			elseif ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'cookie', 's_poll') == "no" || $this->conf['cookie'] == "no") {
@@ -879,7 +844,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			} //if no value set use 30 days
 			elseif ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'cookie', 's_poll') === '' || $this->conf['cookie'] === '') {
 				if (!setcookie($cookieName, 'voted:yes', $GLOBALS['SIM_EXEC_TIME'] + (3600 * 24 * 30), $cookiepath)) {
-					return '<div class="error">' . $this->LL_error_no_vote . '</div>';
+					return '<div class="error">' . $this->pi_getLL('error_no_vote') . '</div>';
 				}
 			}
 		} else {
@@ -890,7 +855,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				$cookieTime = $GLOBALS['SIM_EXEC_TIME'] + (3600 * 24 * intval($this->conf['cookie']));
 			}
 			if (!setcookie($cookieName, 'voted:yes', $cookieTime, $cookiepath)) {
-				return '<div class="error">' . $this->LL_error_no_vote . '</div>';
+				return '<div class="error">' . $this->pi_getLL('error_no_vote') . '</div>';
 			}
 		}
 
@@ -1276,7 +1241,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 		//include link back to previews view
 		if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'backlink', 's_list') || $this->conf['backlink']) {
-			$subpartArray["###LINKVIEW###"] = '<a class="jk_poll_linklist" href="' . $_SERVER['HTTP_REFERER'] . '">' . $this->LL_linkview . '</a>';
+			$subpartArray["###LINKVIEW###"] = '<a class="jk_poll_linklist" href="' . $_SERVER['HTTP_REFERER'] . '">' . $this->pi_getLL('linkview') . '</a>';
 		} else {
 			$subpartArray["###LINKVIEW###"] = '';
 		}
