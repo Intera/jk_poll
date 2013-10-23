@@ -33,6 +33,95 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	public $extKey = 'jk_poll'; // The extension key.
 	public $pi_checkCHash = FALSE;
 
+	/**
+	 * "answer" POST variable (containing the selected answers)
+	 *
+	 * @var array
+	 */
+	protected $answer;
+
+	/**
+	 * "captcha" POST variable
+	 *
+	 * @var string
+	 */
+	protected $captcha;
+
+	/**
+	 * Instance of srfreecap plugin if available
+	 *
+	 * @var object
+	 */
+	protected $freeCap;
+
+	/**
+	 * "go" POST variable
+	 *
+	 * @var string
+	 */
+	protected $go;
+
+	/**
+	 * Contains the enable field query for the tx_jkpoll_poll table
+	 *
+	 * @var string
+	 */
+	protected $pollEnableFields;
+
+	/**
+	 * Page UID where the votes are stored
+	 *
+	 * @var int
+	 */
+	protected $pid;
+
+	/**
+	 * The ID of the currenlty active poll
+	 *
+	 * @var int
+	 */
+	protected $pollID;
+
+	/**
+	 * @var int
+	 */
+	protected $pollID_parent;
+
+	/**
+	 * Contains the IP address of the current client
+	 *
+	 * @var string
+	 */
+	protected $REMOTE_ADDR;
+
+	/**
+	 * "captacha_response" POST variable
+	 *
+	 * @var string
+	 */
+	protected $sr_captcha;
+
+	/**
+	 * Template code
+	 *
+	 * @var string
+	 */
+	protected $templateCode;
+
+	/**
+	 * TRUE if current poll is valid
+	 *
+	 * @var boolean
+	 */
+	protected $valid;
+
+	/**
+	 * TRUE if current poll is votable
+	 *
+	 * @var boolean
+	 */
+	protected $voteable;
+
 	function main($content, $conf) {
 		$this->conf = $conf;
 		$this->pi_setPiVarDefaults();
