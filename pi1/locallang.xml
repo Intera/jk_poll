@@ -29,7 +29,7 @@
 			<label index="no_login">You can only vote if you log in.</label>
 			<label index="error_no_vote">Your vote was not registered. You must enable cookies in your browser to vote.</label>
 			<label index="listFieldHeader_title">Title</label>
-			<label index="listFieldHeader_question">Question</label>	
+			<label index="listFieldHeader_question">Question</label>
 			<label index="listFieldHeader_answers">Answers</label>
 			<label index="limit_other">Other</label>
 		</languageKey>
