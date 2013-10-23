@@ -143,7 +143,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		$currentRemoteAddress = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('REMOTE_ADDR');
 		$this->REMOTE_ADDR =  long2ip(ip2long($currentRemoteAddress));
 
-		//initialize sr_freecap
+		// initialize sr_freecap
 		if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'captcha', 's_poll') == "sr_freecap" || $this->conf['captcha'] == "sr_freecap") {
 			if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('sr_freecap')) {
 				require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('sr_freecap') . 'pi2/class.tx_srfreecap_pi2.php');
@@ -151,13 +151,13 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			}
 		}
 
-		//Get ID of poll ($this->PollID) or error msg. if no poll was found
+		// Get ID of poll ($this->PollID) or error msg. if no poll was found
 		if (!$this->getPollID()) {
 			$content = '<div class="error">' . $this->pi_getLL('no_poll_found') . '</div>';
 			return $this->pi_wrapInBaseClass($content);
 		}
 
-		//Define CSS file (get from config or use default)
+		// Define CSS file (get from config or use default)
 		if (($this->conf['css_file'] != "none") && ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'css_file', 'sDEF') != "none")) {
 			if ($this->conf['css_file'] != "") {
 				$cssFile = $this->conf['css_file'];
@@ -169,7 +169,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			$GLOBALS['TSFE']->additionalHeaderData[$this->extKey] = '<link rel="stylesheet" href="' . $cssFile . '" type="text/css" />';
 		}
 
-		//Get template-file
+		// Get template-file
 		if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'templatefile', 'sDEF') != "" && !is_null($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'templatefile', 'sDEF'))) {
 			$this->templateCode = $this->cObj->fileResource($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'templatefile', 'sDEF'));
 		} elseif ($this->conf['template']) {
@@ -178,9 +178,9 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			$this->templateCode = $this->cObj->fileResource(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath($this->extKey) . 'res/jk_poll.tmpl');
 		}
 
-		//Poll should be displayed
+		// Poll should be displayed
 		if (strchr($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'what_to_display', 'sDEF'), "POLL") || $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'what_to_display', 'sDEF') == '') {
-			//The Get/Post variables
+			// The Get/Post variables
 			$postVars = GeneralUtility::_GP($this->prefixId);
 			$getVars = GeneralUtility::_GET($this->prefixId);
 			if ($postVars['go']) {
@@ -207,11 +207,11 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 					break;
 			}
 		}
-		//List should be displayed
+		// List should be displayed
 		if (strchr($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'what_to_display', 'sDEF'), "LIST") || !strcmp($this->go, 'list')) {
 			$content = $this->showlist();
 		}
-		//Result should be displayed
+		// Result should be displayed
 		if (strchr($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'what_to_display', 'sDEF'), "RESULT") || !strcmp($this->go, 'result')) {
 			$content = $this->showresults();
 		}
@@ -225,7 +225,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	 */
 	function showpoll() {
 
-		//Get poll data
+		// Get poll data
 		$res = $this->typo3Db->exec_SELECTquery(
 			'*',
 			'tx_jkpoll_poll',
@@ -235,13 +235,13 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		$content = '';
 		if ($res && $row = $this->typo3Db->sql_fetch_assoc($res)) {
 
-			//Put answers and votes in array
+			// Put answers and votes in array
 			$answers = explode("\n", $row['answers']);
 			$votes = explode("\n", $row['votes']);
 			$answers_description = explode("\n", $row['answers_description']);
 			$answers_image = explode(",", $row['answers_image']);
 
-			//Put in a 0 if there are no votes yet:
+			// Put in a 0 if there are no votes yet:
 			$needsupdate = FALSE;
 			foreach ($answers as $i => $a) {
 				if (!is_numeric(trim($votes[$i])) || $votes[$i] == '') {
@@ -270,9 +270,9 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			$markerArrayQuestion["###QUESTION_IMAGE###"] = $this->getimage($this->pollID, '', '');
 			$markerArrayQuestion["###QUESTIONTEXT###"] = $this->cObj->stdWrap($row['question'], $this->conf['rtefield_stdWrap.']);
 
-			//include link to list
+			// include link to list
 			if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'list', 's_poll') || $this->conf['list']) {
-				//build url for linklist
+				// build url for linklist
 				$getParams = array_merge(
 					GeneralUtility::_GET(),
 					array(
@@ -297,9 +297,9 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			// check if enddate is set
 			$this->valid = $this->checkPollValid($check_poll_id);
 
-			//Check for logged IPs
+			// Check for logged IPs
 			if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'check_ip', 's_poll') || $this->conf['check_ip']) {
-				//get timestamp after which vote is possible again
+				// get timestamp after which vote is possible again
 				if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'time', 's_poll') != "") {
 					$vote_time = $GLOBALS['SIM_EXEC_TIME'] - ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'time', 's_poll') * 3600);
 				} elseif ($this->conf['check_ip_time'] != "") {
@@ -327,7 +327,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				$ip_voted = FALSE;
 			}
 
-			//Check for fe_users who already voted
+			// Check for fe_users who already voted
 			if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'fe_user', 's_poll') || $this->conf['check_user']) {
 				if ($GLOBALS['TSFE']->fe_user->user['uid'] != '') {
 					$res = $this->typo3Db->exec_SELECTquery(
@@ -353,12 +353,12 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				$user_voted = FALSE;
 			}
 
-			//Check for cookie. If not found show poll, if found show results.
+			// Check for cookie. If not found show poll, if found show results.
 			$cookieName = 't3_tx_jkpoll_' . $check_poll_id;
 			$resultcontentAnswer = '';
 			if (!isset($_COOKIE[$cookieName]) && !$ip_voted && !$user_voted && $this->voteable && $this->valid) {
 
-				//Make radio buttons
+				// Make radio buttons
 				foreach ($answers as $i => $a) {
 					$markerArrayAnswer = array();
 					$choiceID = $this->prefixId . '_' . $this->pollID . '_' . $i;
@@ -387,13 +387,13 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 					$resultcontentAnswer .= $this->cObj->substituteMarkerArrayCached($template['answer'], $markerArrayAnswer);
 				}
 
-				//build url for form
-				//get the current GET params, so the language (and maybe more) is preserved within the submit link
+				// build url for form
+				// get the current GET params, so the language (and maybe more) is preserved within the submit link
 				//				$getParams = GeneralUtility::_GET();
 				$getParams = array(
 					'L' => $GLOBALS['TSFE']->sys_language_content,
 				);
-				//parameter id für seiten_id aus array entfernen
+				// parameter id für seiten_id aus array entfernen
 				// add get paramters to make it work with extension "comments"
 				if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'comments', 's_poll') || $this->conf['comments']) {
 					$getParams[$this->prefixId . '[uid]'] = $this->pollID;
@@ -417,7 +417,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 					$markerArray["###SUBMIT###"] .= $this->conf['custom_submit'];
 				}
 
-				//include captcha
+				// include captcha
 				if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'captcha', 's_poll') != "" || $this->conf['captcha'] != "") {
 					if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'captcha', 's_poll') == "captcha" || $this->conf['captcha'] == "captcha") {
 						if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('captcha')) {
@@ -427,7 +427,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 					} else {
 						$template["poll_vote"] = $this->cObj->substituteSubpart($template["poll_vote"], '###CAPTCHA_INSERT###', '');
 					}
-					//sr_freecap
+					// sr_freecap
 					if (($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'captcha', 's_poll') == "sr_freecap" || $this->conf['captcha'] == "sr_freecap") && is_object($this->freeCap)) {
 						$markerArray = array_merge($markerArray, $this->freeCap->makeCaptcha());
 					} else {
@@ -438,9 +438,9 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 					$template["poll_vote"] = $this->cObj->substituteSubpart($template["poll_vote"], '###CAPTCHA_INSERT###', '');
 				}
 
-				//include link to RESULT view
+				// include link to RESULT view
 				if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'link_to_result', 's_poll') || $this->conf['link_to_result']) {
-					//build url for linklist
+					// build url for linklist
 					$ll_getParams = array($this->prefixId . '[go]' => 'result', $this->prefixId . '[uid]' => $this->pollID);
 					$ll_alink = $this->pi_getPageLink($GLOBALS['TSFE']->id, '', $ll_getParams);
 					$markerArray["###LINK_TO_RESULT###"] = '<a class="jk_poll_link_to_result" href="' . $ll_alink . '">' . $this->pi_getLL('link_to_result') . '</a>';
@@ -448,9 +448,9 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 					$markerArray["###LINK_TO_RESULT###"] = '';
 				}
 
-				//include link to list
+				// include link to list
 				if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'list', 's_poll') || $this->conf['list']) {
-					//build url for linklist
+					// build url for linklist
 					$ll_getParams = array($this->prefixId . '[go]' => 'list');
 					$ll_alink = $this->pi_getPageLink($GLOBALS['TSFE']->id, '', $ll_getParams);
 					$markerArray["###LINKLIST###"] = '<a class="jk_poll_linklist" href="' . $ll_alink . '">' . $this->pi_getLL('linklist') . '</a>';
@@ -474,7 +474,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 					);
 					header('Location:' . GeneralUtility::locationHeaderUrl($this->pi_getPageLink($GLOBALS['TSFE']->id, '', $getParams)));
 				} else {
-					//Show result
+					// Show result
 					$content = $this->showresults();
 				}
 			}
@@ -497,12 +497,12 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				'uid=' . $this->pollID . ' AND sys_language_uid=' . $GLOBALS['TSFE']->sys_language_content . $this->pollEnableFields
 		);
 
-		//Get poll data
+		// Get poll data
 		if ($res && $row = $this->typo3Db->sql_fetch_assoc($res)) {
 
-			//Get the votes, answers and colors
+			// Get the votes, answers and colors
 			$votes = explode("\n", $row['votes']);
-			//if poll is translation get votes from parent poll
+			// if poll is translation get votes from parent poll
 			if ($this->pollID_parent != 0 && (!$this->conf['vote_language_specific'] && !$this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'vote_language_specific', 'sDEF'))) {
 				$res_votes = $this->typo3Db->exec_SELECTquery(
 					'*',
@@ -524,7 +524,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				$total += $votes[$i];
 			}
 
-			//Limit the amount of answers shown to the top x
+			// Limit the amount of answers shown to the top x
 			$limit = 0;
 			if ($this->conf['result_limit']) {
 				$limit = $this->conf['result_limit'];
@@ -552,20 +552,20 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				}
 			}
 
-			//Get type of poll
+			// Get type of poll
 			if ($this->conf['type']) {
 				$type = $this->conf['type'];
 			} else {
 				$type = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'type', 's_result');
 			}
-			//Get height_width
+			// Get height_width
 			$height_width = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'height_width', 's_result');
 			if ($height_width == "" && $type == 0) {
 				$height_width = 10;
 			} elseif ($height_width == "" && $type == 1) {
 				$height_width = 50;
 			}
-			//Get factor
+			// Get factor
 			if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'factor', 's_result')) {
 				$factor = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'factor', 's_result');
 			} elseif ($this->conf['factor']) {
@@ -597,7 +597,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 			$template['answers'] = $this->cObj->substituteMarkerArrayCached($template['answers'], $markerArray);
 
-			//Get highest result
+			// Get highest result
 			$percents = 0;
 			foreach ($votes as $i => $a) {
 				if ($total > 0) {
@@ -630,9 +630,9 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 					$percent = 0;
 				}
 
-				//Make result bars
+				// Make result bars
 				$markerArrayAnswer = array();
-				//get path for images
+				// get path for images
 				if ($this->conf['path_to_images']) {
 					$pathToImages = $this->conf['path_to_images'];
 				} elseif ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'path_to_images', 's_result')) {
@@ -642,7 +642,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				}
 				$bar = ($percent == 0 && ($this->conf['show_zero_percent'] || $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'show_zero_percent', 's_result'))) ? 1 : round($percent * $factor);
 				if ($type == 0) {
-					//horizontal
+					// horizontal
 					if ($this->conf['show_css_bars'] || $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'show_css_bars', 's_result')) {
 						$markerArrayAnswer["###IMG_PERCENTAGE_RESULT###"] = '<div style="float:left; background-image:url(\'' . $pathToImages . trim($colors[$i]) . '.' . $this->conf['image_type'] . '\'); width:' . $bar . 'px; height:' . $height_width . 'px;" title="' . $percent . '%"></div>';
 					} else {
@@ -707,9 +707,9 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			$subpartArray["###ANSWER_RESULT###"] = $resultcontentAnswer;
 			$subpartArray["###EXPLANATION###"] = $this->cObj->stdWrap($row['explanation'], $this->conf['rtefield_stdWrap.']);
 
-			//include link to RESULT view
+			// include link to RESULT view
 			if (($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'link_to_poll', 's_result') || $this->conf['link_to_poll']) && $this->voteable) {
-				//build url for linklist
+				// build url for linklist
 				$ll_getParams = array($this->prefixId . '[go]' => 'poll', $this->prefixId . '[uid]' => $this->pollID);
 				$ll_alink = $this->pi_getPageLink($GLOBALS['TSFE']->id, '', $ll_getParams);
 				$subpartArray["###LINK_TO_POLL###"] = '<a class="jk_poll_link_to_poll" href="' . $ll_alink . '">' . $this->pi_getLL('link_to_poll') . '</a>';
@@ -717,9 +717,9 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				$subpartArray["###LINK_TO_POLL###"] = '';
 			}
 
-			//include link to list
+			// include link to list
 			if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'list', 's_poll') || $this->conf['list']) {
-				//build url for linklist
+				// build url for linklist
 				$ll_getParams = array($this->prefixId . '[go]' => 'list');
 				$ll_alink = $this->pi_getPageLink($GLOBALS['TSFE']->id, '', $ll_getParams);
 				$subpartArray["###LINKLIST###"] = '<a class="jk_poll_linklist" href="' . $ll_alink . '">' . $this->pi_getLL('linklist') . '</a>';
@@ -748,12 +748,12 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 		// poll is allowed if cookie not set already
 		$cookieName = 't3_tx_jkpoll_' . $check_poll_id;
-		//Exit if cookie exists
+		// Exit if cookie exists
 		if (isset($_COOKIE[$cookieName])) {
 			return '<div class="error">' . $this->pi_getLL('has_voted') . '</div>';
 		}
 
-		//Exit if captcha was not right
+		// Exit if captcha was not right
 		if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'captcha', 's_poll') != "" || $this->conf['captcha'] != "") {
 			if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'captcha', 's_poll') == "captcha" || $this->conf['captcha'] == "captcha") {
 				if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('captcha')) {
@@ -771,7 +771,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			}
 		}
 
-		//Exit if fe_user already voted
+		// Exit if fe_user already voted
 		if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'fe_user', 's_poll')) {
 			if ($GLOBALS['TSFE']->fe_user->user['uid'] != '') {
 				$res = $this->typo3Db->exec_SELECTquery(
@@ -793,9 +793,9 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			}
 		}
 
-		//Exit if IP already logged
+		// Exit if IP already logged
 		if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'check_ip', 's_poll') || $this->conf['check_ip']) {
-			//get timestamp after which vote is possible again
+			// get timestamp after which vote is possible again
 			if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'time', 's_poll') != "") {
 				$vote_time = $GLOBALS['SIM_EXEC_TIME'] - ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'time', 's_poll') * 3600);
 			} elseif ($this->conf['check_ip_time'] != "") {
@@ -820,35 +820,35 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			}
 		}
 
-		//check if an answer was selected
+		// check if an answer was selected
 		if (!intval($this->answer[0]) && $this->answer[0] != '0') {
 			return '<div class="error">' . $this->pi_getLL('error_no_vote_selected') . '</div>';
 		}
 
-		//decide if cookie-path is to be set or not
+		// decide if cookie-path is to be set or not
 		$cookiepath = NULL;
 		if ($this->conf['cookie_domainpath'] == 1) {
 			$cookiepath = '/';
 		}
 
-		//decide which type of cookie is to be set
+		// decide which type of cookie is to be set
 		if ((!intval($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'cookie', 's_poll')) && $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'cookie', 's_poll')) || (!intval($this->conf['cookie'])) && $this->conf['cookie']) {
-			//make non-persistent cookie if "off"
+			// make non-persistent cookie if "off"
 			if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'cookie', 's_poll') == "off" || $this->conf['cookie'] == "off") {
 				if (!setcookie($cookieName, 'voted:yes', 0, $cookiepath)) {
 					return '<div class="error">' . $this->pi_getLL('error_no_vote') . '</div>';
 				}
-			} //don't use cookies if "no"
+			} // don't use cookies if "no"
 			elseif ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'cookie', 's_poll') == "no" || $this->conf['cookie'] == "no") {
-				//do nothing
-			} //if no value set use 30 days
+				// do nothing
+			} // if no value set use 30 days
 			elseif ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'cookie', 's_poll') === '' || $this->conf['cookie'] === '') {
 				if (!setcookie($cookieName, 'voted:yes', $GLOBALS['SIM_EXEC_TIME'] + (3600 * 24 * 30), $cookiepath)) {
 					return '<div class="error">' . $this->pi_getLL('error_no_vote') . '</div>';
 				}
 			}
 		} else {
-			//delete cookie after time set via flexform
+			// delete cookie after time set via flexform
 			if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'cookie', 's_poll') && intval($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'cookie', 's_poll'))) {
 				$cookieTime = $GLOBALS['SIM_EXEC_TIME'] + (3600 * 24 * intval($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'cookie', 's_poll')));
 			} else {
@@ -859,7 +859,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			}
 		}
 
-		//Get the poll data so it can be updated
+		// Get the poll data so it can be updated
 		if ($this->pollID_parent != 0 && (!$this->conf['vote_language_specific'] && !$this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'vote_language_specific', 'sDEF'))) {
 			$res = $this->typo3Db->exec_SELECTquery(
 				'*',
@@ -877,14 +877,14 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			$row = $this->typo3Db->sql_fetch_assoc($res);
 		}
 
-		//update number of votes
+		// update number of votes
 		$votes = isset($row['votes']) ? explode("\n", $row['votes']) : array();
 		$newvotes = array();
 		foreach ($votes as $i => $a) {
-			//find the answer that was voted for
+			// find the answer that was voted for
 			foreach ($this->answer as $value) {
 				if ($i == $value) {
-					//update no. of votes
+					// update no. of votes
 					$a = intval($votes[$i]) + 1;
 				}
 			}
@@ -909,7 +909,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			);
 		}
 
-		//write IP of voter in db
+		// write IP of voter in db
 		if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'check_ip', 's_poll') || $this->conf['check_ip']) {
 			$insertFields = array(
 				'pid' => $check_poll_id,
@@ -922,7 +922,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			);
 		}
 
-		//write FE User in db
+		// write FE User in db
 		if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'fe_user', 's_poll') || $this->conf['check_user']) {
 			$insertFields = array(
 				'pid' => $check_poll_id,
@@ -935,7 +935,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			);
 		}
 
-		//Show the poll results or forward to page specified
+		// Show the poll results or forward to page specified
 		$getParams = array(
 			'L' => $GLOBALS['TSFE']->sys_language_content,
 		);
@@ -972,15 +972,15 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	 */
 	function getPollID() {
 
-		//The id of the page with the poll to use. Take from template, or the starting point page or
-		//by default use current page
+		// The id of the page with the poll to use. Take from template, or the starting point page or
+		// by default use current page
 		if ($this->conf['pid']) {
 			$this->pid = $this->conf['pid'];
 		} else {
 			$this->pid = intval($this->cObj->data['pages'] ? $this->cObj->data['pages'] : $GLOBALS['TSFE']->id);
 		}
 
-		//Get the poll id from parameter or select newest active poll (only newest poll is voteable)
+		// Get the poll id from parameter or select newest active poll (only newest poll is voteable)
 		if ($this->piVars['uid'] != "") {
 			if (!$this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'vote_old', 's_list')) {
 				if ($this->piVars['uid'] == $this->getLastPoll()) {
@@ -989,7 +989,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 					$this->voteable = FALSE;
 				}
 				$this->pollID = intval($this->piVars['uid']);
-				//check if poll is translated
+				// check if poll is translated
 				$this->pollID_parent = $this->getPollIDParent($this->pollID);
 			} else {
 				$this->pollID = intval($this->piVars['uid']);
@@ -997,10 +997,10 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				$this->pollID_parent = $this->getPollIDParent($this->pollID);
 			}
 		} else {
-			//Get the last poll from storage page
+			// Get the last poll from storage page
 			$this->pollID = $this->getLastPoll();
 			$this->pollID_parent = $this->getPollIDParent($this->pollID);
-			//return false if no poll found
+			// return false if no poll found
 			if (!$this->pollID) {
 				return FALSE;
 			}
@@ -1012,7 +1012,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				header('Location:' . GeneralUtility::locationHeaderUrl($this->pi_getPageLink($GLOBALS['TSFE']->id, '', array('L' => $GLOBALS['TSFE']->sys_language_content, $this->prefixId . '[uid]' => $this->pollID))));
 			}
 		}
-		//check if poll is available for language selected
+		// check if poll is available for language selected
 		$res_poll = $this->typo3Db->exec_SELECTquery(
 			'*',
 			'tx_jkpoll_poll',
@@ -1023,14 +1023,14 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		} else {
 			$poll_available = FALSE;
 		}
-		//not default language and poll with given id isn't available in current language
+		// not default language and poll with given id isn't available in current language
 		if ($GLOBALS['TSFE']->sys_language_content != '0' && !$poll_available) {
 			$res_language = $this->typo3Db->exec_SELECTquery(
 				'*',
 				'tx_jkpoll_poll',
 					'l18n_parent=' . $this->pollID . ' AND sys_language_uid=' . $GLOBALS['TSFE']->sys_language_content . $this->pollEnableFields
 			);
-			//set pollid to id of language
+			// set pollid to id of language
 			if ($res_language && $row_language = $this->typo3Db->sql_fetch_assoc($res_language)) {
 				$this->pollID = $row_language['uid'];
 				if ($this->pollID == $this->getLastPoll()) {
@@ -1097,10 +1097,10 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	 */
 	function getLastPoll() {
 
-		//Get the last poll from storage page
+		// Get the last poll from storage page
 
-		//Find any poll records on the chosen page.
-		//Polls that are not hidden or deleted and that are active according to start and end date
+		// Find any poll records on the chosen page.
+		// Polls that are not hidden or deleted and that are active according to start and end date
 		$res = $this->typo3Db->exec_SELECTquery(
 			'uid,l18n_parent',
 			'tx_jkpoll_poll',
@@ -1109,7 +1109,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			'crdate DESC'
 		);
 
-		//return false if no poll found
+		// return false if no poll found
 		if ($this->typo3Db->sql_num_rows($res) == 0) {
 			return FALSE;
 		} else {
@@ -1137,22 +1137,22 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			$pagebrowser = 0;
 		}
 
-		//The id of the page with the poll to use. Take from the starting point page or
-		//by default use current page
+		// The id of the page with the poll to use. Take from the starting point page or
+		// by default use current page
 		if ($this->conf['pid']) {
 			$this->pid = $this->conf['pid'];
 		} else {
 			$this->pid = intval($this->cObj->data['pages'] ? $this->cObj->data['pages'] : $GLOBALS['TSFE']->id);
 		}
 
-		//Get the page where the poll is located
+		// Get the page where the poll is located
 		if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'PIDitemDisplay', 's_list') != "") {
 			$id = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'PIDitemDisplay', 's_list');
 		} else {
 			$id = $GLOBALS["TSFE"]->id;
 		}
 
-		//Get the amount of polls that should be displayed
+		// Get the amount of polls that should be displayed
 		if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'amount', 's_list') != "") {
 			$limit = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'amount', 's_list');
 		} elseif (intval($this->conf['list_limit'])) {
@@ -1161,8 +1161,8 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			$limit = '';
 		}
 
-		//Find any poll records on the chosen page.
-		//Polls that are not hidden or deleted and that are active according to start and end date
+		// Find any poll records on the chosen page.
+		// Polls that are not hidden or deleted and that are active according to start and end date
 		$res = $this->typo3Db->exec_SELECTquery(
 			'uid, title, l18n_parent',
 			'tx_jkpoll_poll',
@@ -1179,7 +1179,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 		$items = array();
 		if ($res) {
-			//show first poll in list?
+			// show first poll in list?
 			if (!$this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'show_first', 's_list') && !$this->conf['list_first']) {
 				$this->typo3Db->sql_fetch_assoc($res);
 			}
@@ -1239,7 +1239,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			$subpartArray["###POLL_LINK###"] = $content_tmp;
 		}
 
-		//include link back to previews view
+		// include link back to previews view
 		if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'backlink', 's_list') || $this->conf['backlink']) {
 			$subpartArray["###LINKVIEW###"] = '<a class="jk_poll_linklist" href="' . $_SERVER['HTTP_REFERER'] . '">' . $this->pi_getLL('linkview') . '</a>';
 		} else {
@@ -1262,7 +1262,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	 */
 	function getimage($uid, $width, $height) {
 
-		//Get poll data
+		// Get poll data
 		$res = $this->typo3Db->exec_SELECTquery(
 			'*',
 			'tx_jkpoll_poll',
