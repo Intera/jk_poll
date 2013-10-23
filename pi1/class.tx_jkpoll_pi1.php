@@ -351,6 +351,45 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			// Check for cookie. If not found show poll, if found show results.
 			$cookieName = 't3_tx_jkpoll_' . $check_poll_id;
 			$resultcontentAnswer = '';
+
+			// build url for form
+			// get the current GET params, so the language (and maybe more) is preserved within the submit link
+			//				$getParams = GeneralUtility::_GET();
+			$getParams = array(
+				'L' => $GLOBALS['TSFE']->sys_language_content,
+			);
+			// parameter id für seiten_id aus array entfernen
+			// add get paramters to make it work with extension "comments"
+			if ($this->getConfigValue('comments', 's_poll')) {
+				$getParams[$this->prefixId . '[uid]'] = $this->pollID;
+			}
+			if ($this->getConfigValue('comments_on_result', 's_result')) {
+				$getParams[$this->prefixId . '[uid]'] = $this->pollID;
+				$getParams[$this->prefixId . '[uid_comments]'] = $this->pollID;
+			}
+
+			$alink = $this->pi_getPageLink($GLOBALS['TSFE']->id, '', $getParams);
+
+			// include link to RESULT view
+			if ($this->getConfigValue('link_to_result', 's_poll')) {
+				// build url for linklist
+				$ll_getParams = array($this->prefixId . '[go]' => 'result', $this->prefixId . '[uid]' => $this->pollID);
+				$ll_alink = $this->pi_getPageLink($GLOBALS['TSFE']->id, '', $ll_getParams);
+				$markerArray["###LINK_TO_RESULT###"] = '<a class="jk_poll_link_to_result" href="' . $ll_alink . '">' . $this->pi_getLL('link_to_result') . '</a>';
+			} else {
+				$markerArray["###LINK_TO_RESULT###"] = '';
+			}
+
+			// include link to list
+			if ($this->getConfigValue('list', 's_poll')) {
+				// build url for linklist
+				$ll_getParams = array($this->prefixId . '[go]' => 'list');
+				$ll_alink = $this->pi_getPageLink($GLOBALS['TSFE']->id, '', $ll_getParams);
+				$markerArray["###LINKLIST###"] = '<a class="jk_poll_linklist" href="' . $ll_alink . '">' . $this->pi_getLL('linklist') . '</a>';
+			} else {
+				$markerArray["###LINKLIST###"] = '';
+			}
+
 			if (!isset($_COOKIE[$cookieName]) && !$ip_voted && !$user_voted && $this->voteable && $this->valid) {
 
 				// Make radio buttons
@@ -382,23 +421,6 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 					$resultcontentAnswer .= $this->cObj->substituteMarkerArrayCached($template['answer'], $markerArrayAnswer);
 				}
 
-				// build url for form
-				// get the current GET params, so the language (and maybe more) is preserved within the submit link
-				//				$getParams = GeneralUtility::_GET();
-				$getParams = array(
-					'L' => $GLOBALS['TSFE']->sys_language_content,
-				);
-				// parameter id für seiten_id aus array entfernen
-				// add get paramters to make it work with extension "comments"
-				if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'comments', 's_poll') || $this->conf['comments']) {
-					$getParams[$this->prefixId . '[uid]'] = $this->pollID;
-				}
-				if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'comments_on_result', 's_result') || $this->conf['comments_on_result']) {
-					$getParams[$this->prefixId . '[uid]'] = $this->pollID;
-					$getParams[$this->prefixId . '[uid_comments]'] = $this->pollID;
-				}
-
-				$alink = $this->pi_getPageLink($GLOBALS['TSFE']->id, '', $getParams);
 
 				//				$markerArray["###SUBMIT###"] = '<input class="pollsubmit" type="submit" value="'.$this->pi_getLL('submit_button').'" />';
 				// store [go] (for marking submitted forms) and a [pollID] (for multiple polls on the same page)
@@ -433,45 +455,63 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 					$template["poll_vote"] = $this->cObj->substituteSubpart($template["poll_vote"], '###CAPTCHA_INSERT###', '');
 				}
 
-				// include link to RESULT view
-				if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'link_to_result', 's_poll') || $this->conf['link_to_result']) {
-					// build url for linklist
-					$ll_getParams = array($this->prefixId . '[go]' => 'result', $this->prefixId . '[uid]' => $this->pollID);
-					$ll_alink = $this->pi_getPageLink($GLOBALS['TSFE']->id, '', $ll_getParams);
-					$markerArray["###LINK_TO_RESULT###"] = '<a class="jk_poll_link_to_result" href="' . $ll_alink . '">' . $this->pi_getLL('link_to_result') . '</a>';
-				} else {
-					$markerArray["###LINK_TO_RESULT###"] = '';
-				}
-
-				// include link to list
-				if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'list', 's_poll') || $this->conf['list']) {
-					// build url for linklist
-					$ll_getParams = array($this->prefixId . '[go]' => 'list');
-					$ll_alink = $this->pi_getPageLink($GLOBALS['TSFE']->id, '', $ll_getParams);
-					$markerArray["###LINKLIST###"] = '<a class="jk_poll_linklist" href="' . $ll_alink . '">' . $this->pi_getLL('linklist') . '</a>';
-				} else {
-					$markerArray["###LINKLIST###"] = '';
-				}
-
 				$template["poll_vote"] = $this->cObj->substituteSubpart($template["poll_vote"], '###ANSWER_VOTE###', $resultcontentAnswer);
-				$content .= $this->cObj->substituteMarkerArrayCached($template["poll_vote"], $markerArray, array(), array());
+				$pollVoteSubpart = $this->cObj->substituteSubpart($template["poll_vote"], '###POLL_VOTE_ERRORS###', '');
+				$content .= $this->cObj->substituteMarkerArrayCached($pollVoteSubpart, $markerArray, array(), array());
 				$content = '<form method="post" action="' . htmlspecialchars($alink) . '" id="jk_pollform_' . $this->pollID . '">' . $content;
 				$content .= '</form>';
-
 			} else {
-				$getVars = GeneralUtility::_GET($this->prefixId);
-				// add get paramters to make it work with extension "comments"
-				if (($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'comments_on_result', 's_result') || $this->conf['comments_on_result']) && $getVars['uid_comments'] == "") {
+
+				// if poll is not explicitly requested, redirect to results
+				if ($this->piVars['go'] !== 'poll') {
+
 					$getParams = array(
 						'L' => $GLOBALS['TSFE']->sys_language_content,
 						$this->prefixId . '[uid]' => $this->pollID,
-						$this->prefixId . '[uid_comments]' => $this->pollID,
+						$this->prefixId . '[go]' => 'result',
 					);
+
+					if ($this->getConfigValue('comments_on_result', 's_result')) {
+						$getParams[$this->prefixId . '[uid_comments]'] = $this->pollID;
+					}
+
 					header('Location:' . GeneralUtility::locationHeaderUrl($this->pi_getPageLink($GLOBALS['TSFE']->id, '', $getParams)));
-				} else {
-					// Show result
-					$content = $this->showresults();
 				}
+
+				$errors = array();
+				if (isset($_COOKIE[$cookieName])) {
+					$errors[] = 'cookie_voted';
+				}
+				if ($ip_voted) {
+					$errors[] = 'ip_voted';
+				}
+				if ($user_voted) {
+					$errors[] = 'user_voted';
+				}
+				if (!$this->voteable) {
+					$errors[] = 'poll_finished';
+				}
+				if (!$this->valid) {
+					$errors[] = 'poll_expired';
+				}
+
+				$errorsSubpart = $this->cObj->getSubpart($template['poll_vote'], '###POLL_VOTE_ERRORS###');
+				$errorMessageContainer = $this->cObj->getSubpart($errorsSubpart, '###POLL_VOTE_ERROR_MESSAGE_CONTAINER###');
+
+				$errorMessages = '';
+				foreach ($errors as $errorMessage) {
+					$errorMessage = $this->pi_getLL('poll_error_' . $errorMessage);
+					$errorMessages .= $this->cObj->substituteMarker($errorMessageContainer, '###POLL_VOTE_ERROR_MESSAGE###', $errorMessage);
+				}
+
+				$errorsSubpart = $this->cObj->substituteMarker($errorsSubpart, '###POLL_VOTE_ERROR_HEADER###', $this->pi_getLL('poll_vote_error_header'));
+				$errorsSubpart = $this->cObj->substituteSubpart($errorsSubpart, '###POLL_VOTE_ERROR_MESSAGE_CONTAINER###', $errorMessages);
+
+				$markerArray['###SUBMIT###'] = '';
+				$pollVoteSubpart = $this->cObj->substituteSubpart($template["poll_vote"], '###POLL_VOTE_FORM###', '');
+				$pollVoteSubpart = $this->cObj->substituteSubpart($pollVoteSubpart, '###POLL_VOTE_ERRORS###', $errorsSubpart);
+				$pollVoteSubpart = $this->cObj->substituteMarkerArrayCached($pollVoteSubpart, $markerArray);
+				$content .= $pollVoteSubpart;
 			}
 
 			return $content;

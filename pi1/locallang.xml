@@ -31,6 +31,12 @@
 			<label index="listFieldHeader_question">Question</label>
 			<label index="listFieldHeader_answers">Answers</label>
 			<label index="limit_other">Other</label>
+			<label index="poll_vote_error_header">An error occured. Voting is not possible at the moment.</label>
+			<label index="poll_error_cookie_voted">It seems that someone already voted from your computer. Only one vote is allowed.</label>
+			<label index="poll_error_ip_voted">The IP address from which you are submitting your vote already voted. Only one vote is allowed for each IP address.</label>
+			<label index="poll_error_user_voted">Your user already has voted for this poll. Only one vote is allowed per user.</label>
+			<label index="poll_error_poll_finished">The poll is expired because a newer poll is already active.</label>
+			<label index="poll_error_poll_expired">The poll is finished. No votes are accepted any more.</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="wrong_captcha">Ihre Stimme wurde nicht registriert. Um abzustimmen müssen sie den richtigen Captcha-Code eingeben.</label>
@@ -56,6 +62,12 @@
 			<label index="listFieldHeader_question">Frage</label>
 			<label index="listFieldHeader_answers">Antworten</label>
 			<label index="limit_other">Sonstige</label>
+			<label index="poll_vote_error_header">Ein Fehler is aufgetreten. Zur Zeit ist keine Stimmabgabe möglich.</label>
+			<label index="poll_error_cookie_voted">Es wurde bereits eine Stimme von Ihrem Computer abgegeben. Es ist nur eine Stimme pro Benutzer möglich.</label>
+			<label index="poll_error_ip_voted">Es wurde bereits eine Stimme von Ihrer IP-Adresse aus übermittelt. Nur eine Stimme pro IP-Adresse ist möglich.</label>
+			<label index="poll_error_user_voted">Mit Ihrem Benutzerkonto wurde bereits eine Stimme abgegeben. Es ist nur eine Stimme pro Benutzer möglich.</label>
+			<label index="poll_error_poll_finished">Die Umfrage ist ungültig, da bereits eine neuere Umfrage aktiv ist.</label>
+			<label index="poll_error_poll_expired">Die Umfrage wurde beendet. Es können keine weiteren Stimmen abgegeben werden.</label>
 		</languageKey>
 		<languageKey index="dk" type="array">
 			<label index="no_poll_found">Der blev ikke fundet nogen afstemning. Indst et afstemnings-element p denne side eller indst en side med afstemninger i feltet &quot;udgangspunkt&quot;</label>
