@@ -355,7 +355,6 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			// get the current GET params, so the language (and maybe more) is preserved within the submit link
 			//				$getParams = GeneralUtility::_GET();
 			$getParams = array(
-				'L' => $GLOBALS['TSFE']->sys_language_content,
 			);
 			// parameter id für seiten_id aus array entfernen
 			// add get paramters to make it work with extension "comments"
@@ -465,7 +464,6 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				if ($this->piVars['go'] !== 'poll') {
 
 					$getParams = array(
-						'L' => $GLOBALS['TSFE']->sys_language_content,
 						$this->prefixId . '[uid]' => $this->pollID,
 						$this->prefixId . '[go]' => 'result',
 					);
@@ -965,7 +963,6 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 		// Show the poll results or forward to page specified
 		$getParams = array(
-			'L' => $GLOBALS['TSFE']->sys_language_content,
 		);
 		// add get paramters to make it work with extension "comments"
 		if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'comments', 's_poll') || $this->conf['comments']) {
