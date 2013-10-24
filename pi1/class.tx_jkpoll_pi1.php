@@ -709,7 +709,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 						break;
 					case 1:
 						// If a special label for one vote exists use that, otherwise use the amount of votes
-						$oneVoteLabel = $this->pi_getLL('amount_novote_label');
+						$oneVoteLabel = $this->pi_getLL('amount_onevote_label');
 						$markerArrayAnswer["###AMOUNT_VOTES###"] = $oneVoteLabel ? '' : $votes[$i] . ' ';
 						$markerArrayAnswer["###AMOUNT_VOTES_LABEL###"] = $oneVoteLabel ? $oneVoteLabel : $voteAmountLabel;
 						break;
