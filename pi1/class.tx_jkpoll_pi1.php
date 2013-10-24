@@ -322,26 +322,20 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			}
 
 			// Check for fe_users who already voted
-			if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'fe_user', 's_poll') || $this->conf['check_user']) {
-				if ($GLOBALS['TSFE']->fe_user->user['uid'] != '') {
+			$user_logged_in = FALSE;
+			$user_voted = TRUE;
+			if ($this->getConfigValue('check_user', 's_poll', 'fe_user')) {
+				$currentUserId = intval($GLOBALS['TSFE']->fe_user->user['uid']);
+				if ($currentUserId > 0) {
+					$user_logged_in = TRUE;
 					$res = $this->typo3Db->exec_SELECTquery(
 						'*',
 						'tx_jkpoll_userlog',
-							'pid=' . $check_poll_id . ' AND fe_user=\'' . $GLOBALS['TSFE']->fe_user->user['uid'] . '\''
+						'pid=' . $check_poll_id . ' AND fe_user=' . $currentUserId
 					);
-					$rows = array();
-					if ($res) {
-						while ($row = $this->typo3Db->sql_fetch_assoc($res)) {
-							$rows[] = $row;
-						}
-					}
-					if (count($rows)) {
-						$user_voted = TRUE;
-					} else {
+					if ($this->typo3Db->sql_num_rows($res) === 0) {
 						$user_voted = FALSE;
 					}
-				} else {
-					$user_voted = TRUE;
 				}
 			} else {
 				$user_voted = FALSE;
