@@ -34,6 +34,7 @@
 			<label index="poll_vote_error_header">An error occured. Voting is not possible at the moment.</label>
 			<label index="poll_error_cookie_voted">It seems that someone already voted from your computer. Only one vote is allowed.</label>
 			<label index="poll_error_ip_voted">The IP address from which you are submitting your vote already voted. Only one vote is allowed for each IP address.</label>
+			<label index="poll_error_user_not_logged_in">Only logged in users are allowed to vote for this poll. Please sign in to add your vote.</label>
 			<label index="poll_error_user_voted">Your user already has voted for this poll. Only one vote is allowed per user.</label>
 			<label index="poll_error_poll_finished">The poll is expired because a newer poll is already active.</label>
 			<label index="poll_error_poll_expired">The poll is finished. No votes are accepted any more.</label>
@@ -65,6 +66,7 @@
 			<label index="poll_vote_error_header">Ein Fehler is aufgetreten. Zur Zeit ist keine Stimmabgabe möglich.</label>
 			<label index="poll_error_cookie_voted">Es wurde bereits eine Stimme von Ihrem Computer abgegeben. Es ist nur eine Stimme pro Benutzer möglich.</label>
 			<label index="poll_error_ip_voted">Es wurde bereits eine Stimme von Ihrer IP-Adresse aus übermittelt. Nur eine Stimme pro IP-Adresse ist möglich.</label>
+			<label index="poll_error_user_not_logged_in">An dieser Umfrage können nur angemeldete Benutzer teilnehmen. Bitte melden Sie sich an, um Ihre Stimme anzugeben.</label>
 			<label index="poll_error_user_voted">Mit Ihrem Benutzerkonto wurde bereits eine Stimme abgegeben. Es ist nur eine Stimme pro Benutzer möglich.</label>
 			<label index="poll_error_poll_finished">Die Umfrage ist ungültig, da bereits eine neuere Umfrage aktiv ist.</label>
 			<label index="poll_error_poll_expired">Die Umfrage wurde beendet. Es können keine weiteren Stimmen abgegeben werden.</label>

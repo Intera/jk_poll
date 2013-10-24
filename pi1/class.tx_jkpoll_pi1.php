@@ -472,7 +472,9 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				if ($ip_voted) {
 					$errors[] = 'ip_voted';
 				}
-				if ($user_voted) {
+				if (!$user_logged_in) {
+					$errors[] = 'user_not_logged_in';
+				} elseif ($user_voted) {
 					$errors[] = 'user_voted';
 				}
 				if (!$this->voteable) {
