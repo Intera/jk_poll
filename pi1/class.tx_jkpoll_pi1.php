@@ -174,13 +174,12 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		}
 
 		// Get template-file
-		if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'templatefile', 'sDEF') != "" && !is_null($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'templatefile', 'sDEF'))) {
-			$this->templateCode = $this->cObj->fileResource($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'templatefile', 'sDEF'));
-		} elseif ($this->conf['template']) {
-			$this->templateCode = $this->cObj->fileResource($this->conf['template']);
-		} else {
-			$this->templateCode = $this->cObj->fileResource(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath($this->extKey) . 'res/jk_poll.tmpl');
+		$templateFile = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath($this->extKey) . 'res/jk_poll.tmpl';
+		$customTemplate = $this->getConfigValue('templatefile', 'sDEF');
+		if (!empty($customTemplate)) {
+			$templateFile = $customTemplate;
 		}
+		$this->templateCode = $this->cObj->fileResource($templateFile);
 
 		// Poll should be displayed
 		if (strchr($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'what_to_display', 'sDEF'), "POLL") || $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'what_to_display', 'sDEF') == '') {
