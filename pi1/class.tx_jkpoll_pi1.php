@@ -355,14 +355,10 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			// get the current GET params, so the language (and maybe more) is preserved within the submit link
 			//				$getParams = GeneralUtility::_GET();
 			$getParams = array(
+				$this->prefixId . '[uid]' => $this->pollID,
 			);
-			// parameter id für seiten_id aus array entfernen
 			// add get paramters to make it work with extension "comments"
-			if ($this->getConfigValue('comments', 's_poll')) {
-				$getParams[$this->prefixId . '[uid]'] = $this->pollID;
-			}
 			if ($this->getConfigValue('comments_on_result', 's_result')) {
-				$getParams[$this->prefixId . '[uid]'] = $this->pollID;
 				$getParams[$this->prefixId . '[uid_comments]'] = $this->pollID;
 			}
 
