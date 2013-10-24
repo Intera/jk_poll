@@ -959,31 +959,20 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 		// Show the poll results or forward to page specified
 		$getParams = array(
+			$this->prefixId . '[uid]' => $this->pollID,
 		);
 		// add get paramters to make it work with extension "comments"
-		if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'comments', 's_poll') || $this->conf['comments']) {
-			$getParams[$this->prefixId . '[uid]'] = $this->pollID;
-		}
-		if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'comments_on_result', 's_result') || $this->conf['comments_on_result']) {
-			$getParams[$this->prefixId . '[uid]'] = $this->pollID;
+		if ($this->getConfigValue('comments_on_result', 's_result')) {
 			$getParams[$this->prefixId . '[uid_comments]'] = $this->pollID;
 		}
-		$content = '';
-		if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'PIDforward', 's_poll')) {
-			header('Location:' . GeneralUtility::locationHeaderUrl($this->pi_getPageLink($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'PIDforward', 's_poll'), '', $getParams)));
-		} elseif ($this->conf['PIDforward']) {
-			header('Location:' . GeneralUtility::locationHeaderUrl($this->pi_getPageLink($this->conf['PIDforward'], '', $getParams)));
-		} else {
-			// send to url if comments are enabled, otherwise just show the result
-			if ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'comments', 's_poll') || $this->conf['comments'] || $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'comments_on_result', 's_result') || $this->conf['comments_on_result']) {
-				header('Location:' . GeneralUtility::locationHeaderUrl($this->pi_getPageLink($GLOBALS['TSFE']->id, '', $getParams)));
-			} else {
-				$content .= $this->showresults();
-			}
+		$pidForward = intval($this->getConfigValue('PIDforward', 's_poll'));
+		if ($pidForward) {
+			header('Location:' . GeneralUtility::locationHeaderUrl($this->pi_getPageLink($pidForward, '', $getParams)));
+			die();
 		}
 
-		return $content;
-
+		header('Location:' . GeneralUtility::locationHeaderUrl($this->pi_getPageLink($GLOBALS['TSFE']->id, '', $getParams)));
+		die();
 	}
 
 	/**
