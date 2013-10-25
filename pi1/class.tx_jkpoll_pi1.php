@@ -157,7 +157,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 		// Get ID of poll ($this->PollID) or error msg. if no poll was found
 		if (!$this->getPollID()) {
-			$content = '<div class="error">' . $this->pi_getLL('no_poll_found') . '</div>';
+			$content = '<div class="' . $this->getConfigValue('error_container_class') . '">' . $this->pi_getLL('no_poll_found') . '</div>';
 			return $this->pi_wrapInBaseClass($content);
 		}
 
@@ -497,6 +497,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				}
 
 				$errorsSubpart = $this->cObj->substituteMarker($errorsSubpart, '###POLL_VOTE_ERROR_HEADER###', $this->pi_getLL('poll_vote_error_header'));
+				$errorsSubpart = $this->cObj->substituteMarker($errorsSubpart, '###UNVOTEABLE_MESSAGE_CONTAINER_CLASS###', $this->getConfigValue('unvoteable_message_container_class'));
 				$errorsSubpart = $this->cObj->substituteSubpart($errorsSubpart, '###POLL_VOTE_ERROR_MESSAGE_CONTAINER###', $errorMessages);
 
 				$markerArray['###SUBMIT###'] = '';
@@ -508,7 +509,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 
 			return $content;
 		} else {
-			return '<div class="error">' . $this->pi_getLL('poll_not_visible') . '</div>';
+			return '<div class="' . $this->getConfigValue('error_container_class') . '">' . $this->pi_getLL('poll_not_visible') . '</div>';
 		}
 	}
 
@@ -757,7 +758,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			$content .= $this->cObj->substituteMarkerArrayCached($template["answers"], array(), $subpartArray, array());
 			return $content;
 		} else {
-			return '<div class="error">' . $this->pi_getLL('poll_not_visible') . '</div>';
+			return '<div class="' . $this->getConfigValue('error_container_class') . '">' . $this->pi_getLL('poll_not_visible') . '</div>';
 		}
 	}
 
@@ -777,7 +778,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		$cookieName = 't3_tx_jkpoll_' . $check_poll_id;
 		// Exit if cookie exists
 		if (isset($_COOKIE[$cookieName])) {
-			return '<div class="error">' . $this->pi_getLL('has_voted') . '</div>';
+			return '<div class="' . $this->getConfigValue('error_container_class') . '">' . $this->pi_getLL('has_voted') . '</div>';
 		}
 
 		// Exit if captcha was not right
@@ -791,10 +792,10 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 					$captchaStr = -1;
 				}
 				if (!($captchaStr === -1 || ($captchaStr && $this->captcha === $captchaStr))) {
-					return '<div class="error">' . $this->pi_getLL('wrong_captcha') . '</div>';
+					return '<div class="' . $this->getConfigValue('error_container_class') . '">' . $this->pi_getLL('wrong_captcha') . '</div>';
 				}
 			} elseif (($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'captcha', 's_poll') == "sr_freecap" || $this->conf['captcha'] == "sr_freecap") && is_object($this->freeCap) && !$this->freeCap->checkWord($this->sr_captcha)) {
-				return '<div class="error">' . $this->pi_getLL('wrong_captcha') . '</div>';
+				return '<div class="' . $this->getConfigValue('error_container_class') . '">' . $this->pi_getLL('wrong_captcha') . '</div>';
 			}
 		}
 
@@ -813,10 +814,10 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 					}
 				}
 				if (count($rows)) {
-					return '<div class="error">' . $this->pi_getLL('has_voted') . '</div>';
+					return '<div class="' . $this->getConfigValue('error_container_class') . '">' . $this->pi_getLL('has_voted') . '</div>';
 				}
 			} else {
-				return '<div class="error">' . $this->pi_getLL('no_login') . '</div>';
+				return '<div class="' . $this->getConfigValue('error_container_class') . '">' . $this->pi_getLL('no_login') . '</div>';
 			}
 		}
 
@@ -843,13 +844,13 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				}
 			}
 			if (count($rows)) {
-				return '<div class="error">' . $this->pi_getLL('has_voted') . '</div>';
+				return '<div class="' . $this->getConfigValue('error_container_class') . '">' . $this->pi_getLL('has_voted') . '</div>';
 			}
 		}
 
 		// check if an answer was selected
 		if (!intval($this->answer[0]) && $this->answer[0] != '0') {
-			return '<div class="error">' . $this->pi_getLL('error_no_vote_selected') . '</div>';
+			return '<div class="' . $this->getConfigValue('error_container_class') . '">' . $this->pi_getLL('error_no_vote_selected') . '</div>';
 		}
 
 		// decide if cookie-path is to be set or not
@@ -864,19 +865,19 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			// make non-persistent cookie if "off"
 			if ($cookieConfig == 'session') {
 				if (!setcookie($cookieName, 'voted:yes', 0, $cookiepath)) {
-					return '<div class="error">' . $this->pi_getLL('error_no_vote') . '</div>';
+					return '<div class="' . $this->getConfigValue('error_container_class') . '">' . $this->pi_getLL('error_no_vote') . '</div>';
 				}
 			}
 			// if no value set use 30 days
 			elseif ($cookieConfig == 'on') {
 				if (!setcookie($cookieName, 'voted:yes', $GLOBALS['SIM_EXEC_TIME'] + (3600 * 24 * 30), $cookiepath)) {
-					return '<div class="error">' . $this->pi_getLL('error_no_vote') . '</div>';
+					return '<div class="' . $this->getConfigValue('error_container_class') . '">' . $this->pi_getLL('error_no_vote') . '</div>';
 				}
 			}
 		} else {
 			$cookieTime = $GLOBALS['SIM_EXEC_TIME'] + (3600 * 24 * intval($cookieConfig));
 			if (!setcookie($cookieName, 'voted:yes', $cookieTime, $cookiepath)) {
-				return '<div class="error">' . $this->pi_getLL('error_no_vote') . '</div>';
+				return '<div class="' . $this->getConfigValue('error_container_class') . '">' . $this->pi_getLL('error_no_vote') . '</div>';
 			}
 		}
 

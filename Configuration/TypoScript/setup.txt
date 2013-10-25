@@ -92,6 +92,10 @@ plugin.tx_jkpoll_pi1 {
 	show_zero_percent = 0
 	# if set, bars will be shown with CSS
 	show_css_bars = 0
+	# Class that will be added to the error message container
+	error_container_class = error
+	# Class that will be added to the container of the message that tells the user that he can not vote for the current poll.
+	unvoteable_message_container_class = error
 
 	rendering {
 		title =< lib.stdheader
