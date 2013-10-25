@@ -1411,10 +1411,10 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	 *
 	 * @param string $configKey
 	 * @param string $flexFormSheet
-	 * @param null $flexFormKey The flex form key, if not set the config key will be used
+	 * @param string $flexFormKey The flex form key, if not set the config key will be used
 	 * @return null|string Config value or NULL if no value was found
 	 */
-	protected function getConfigValue($configKey, $flexFormSheet, $flexFormKey = NULL) {
+	protected function getConfigValue($configKey, $flexFormSheet = NULL, $flexFormKey = NULL) {
 
 		$configValue = NULL;
 
@@ -1422,13 +1422,17 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			$configValue = $this->conf[$configKey];
 		}
 
-		if (!isset($flexFormKey)) {
-			$flexFormKey = $configKey;
-		}
+		if (isset($flexFormSheet)) {
 
-		$flexFormValue = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], $flexFormKey, $flexFormSheet);
-		if (!empty($flexFormValue)) {
-			$configValue = $flexFormValue;
+			if (!isset($flexFormKey)) {
+				$flexFormKey = $configKey;
+			}
+
+
+			$flexFormValue = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], $flexFormKey, $flexFormSheet);
+			if (!empty($flexFormValue)) {
+				$configValue = $flexFormValue;
+			}
 		}
 
 		return $configValue;
