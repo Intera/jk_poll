@@ -324,7 +324,8 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			// Check for fe_users who already voted
 			$user_logged_in = FALSE;
 			$user_voted = TRUE;
-			if ($this->getConfigValue('check_user', 's_poll', 'fe_user')) {
+			$check_user = $this->getConfigValue('check_user', 's_poll', 'fe_user');
+			if ($check_user) {
 				$currentUserId = intval($GLOBALS['TSFE']->fe_user->user['uid']);
 				if ($currentUserId > 0) {
 					$user_logged_in = TRUE;
@@ -472,10 +473,12 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				if ($ip_voted) {
 					$errors[] = 'ip_voted';
 				}
-				if (!$user_logged_in) {
-					$errors[] = 'user_not_logged_in';
-				} elseif ($user_voted) {
-					$errors[] = 'user_voted';
+				if ($check_user) {
+					if (!$user_logged_in) {
+						$errors[] = 'user_not_logged_in';
+					} elseif ($user_voted) {
+						$errors[] = 'user_voted';
+					}
 				}
 				if (!$this->voteable) {
 					$errors[] = 'poll_finished';
