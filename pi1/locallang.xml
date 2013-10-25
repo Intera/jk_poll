@@ -31,7 +31,7 @@
 			<label index="listFieldHeader_question">Question</label>
 			<label index="listFieldHeader_answers">Answers</label>
 			<label index="limit_other">Other</label>
-			<label index="poll_vote_error_header">An error occured. Voting is not possible at the moment.</label>
+			<label index="poll_vote_error_header">Voting is not possible at the moment.</label>
 			<label index="poll_error_cookie_voted">It seems that someone already voted from your computer. Only one vote is allowed.</label>
 			<label index="poll_error_ip_voted">The IP address from which you are submitting your vote already voted. Only one vote is allowed for each IP address.</label>
 			<label index="poll_error_user_not_logged_in">Only logged in users are allowed to vote for this poll. Please sign in to add your vote.</label>
@@ -53,8 +53,8 @@
 			<label index="amount_votes_label">Stimmen</label>
 			<label index="submit_button">Abstimmen</label>
 			<label index="linklist">alte Umfragen</label>
-			<label index="link_to_poll">für diese Umfrage abstimmen</label>
-			<label index="link_to_result">zum Ergebnis der Umfrage wechseln</label>
+			<label index="link_to_poll">Für diese Umfrage abstimmen</label>
+			<label index="link_to_result">Zum Ergebnis der Umfrage wechseln</label>
 			<label index="linkview">zurück</label>
 			<label index="has_voted">Jede Person hat nur eine Stimme.</label>
 			<label index="no_login">Sie müssen sich anmelden um abzustimmen.</label>
@@ -63,7 +63,7 @@
 			<label index="listFieldHeader_question">Frage</label>
 			<label index="listFieldHeader_answers">Antworten</label>
 			<label index="limit_other">Sonstige</label>
-			<label index="poll_vote_error_header">Ein Fehler is aufgetreten. Zur Zeit ist keine Stimmabgabe möglich.</label>
+			<label index="poll_vote_error_header">Zur Zeit ist keine Stimmabgabe möglich.</label>
 			<label index="poll_error_cookie_voted">Es wurde bereits eine Stimme von Ihrem Computer abgegeben. Es ist nur eine Stimme pro Benutzer möglich.</label>
 			<label index="poll_error_ip_voted">Es wurde bereits eine Stimme von Ihrer IP-Adresse aus übermittelt. Nur eine Stimme pro IP-Adresse ist möglich.</label>
 			<label index="poll_error_user_not_logged_in">An dieser Umfrage können nur angemeldete Benutzer teilnehmen. Bitte melden Sie sich an, um Ihre Stimme anzugeben.</label>
