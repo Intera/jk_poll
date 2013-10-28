@@ -105,7 +105,3 @@ plugin.tx_jkpoll_pi1 {
 		}
 	}
 }
-#[globalVar = GP:tx_jkpoll_pi1|go = savevote]
-#plugin.tx_jkpoll_pi1 = USER_INT
-#plugin.tx_jkpoll_pi1.factor = 10
-#[global]
