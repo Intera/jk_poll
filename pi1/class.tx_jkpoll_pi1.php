@@ -626,7 +626,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			$template['answers'] = $this->cObj->substituteMarkerArrayCached($template['answers'], $markerArray);
 
 			// Get highest result
-			$percents = 0;
+			$percents = array();
 			foreach ($votes as $i => $a) {
 				if ($total > 0) {
 					$percent = round(($votes[$i] / $total) * 100, 1);
