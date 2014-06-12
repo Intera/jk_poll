@@ -6,13 +6,13 @@
 		<sDEF>
 			<ROOT>
 				<TCEforms>
-					<sheetTitle>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.sheet_settings</sheetTitle>
+					<sheetTitle>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.sheet_settings</sheetTitle>
 				</TCEforms>
 				<type>array</type>
 				<el>
 					<what_to_display>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.what_to_display</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.what_to_display</label>
 							<config>
 								<type>select</type>
 								<items type="array">
@@ -40,7 +40,7 @@
 					
 					<templatefile>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.templatefile</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.templatefile</label>
 							<config>
 								<type>input</type>
 								<size>25</size>
@@ -49,7 +49,7 @@
 					</templatefile>
 					<css_file>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.css_file</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.css_file</label>
 							<config>
 								<type>input</type>
 								<size>25</size>
@@ -58,7 +58,7 @@
 					</css_file>
 					<vote_language_specific>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tx_jkpoll_poll.vote_language_specific</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tx_jkpoll_poll.vote_language_specific</label>
 							<config>
 								<type>check</type>
 							</config>
@@ -66,7 +66,7 @@
 					</vote_language_specific>
 					<check_language_specific>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tx_jkpoll_poll.check_language_specific</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tx_jkpoll_poll.check_language_specific</label>
 							<config>
 								<type>check</type>
 							</config>
@@ -79,13 +79,13 @@
 		<s_poll>
 			<ROOT>
 				<TCEforms>
-					<sheetTitle>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.sheet_poll</sheetTitle>
+					<sheetTitle>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.sheet_poll</sheetTitle>
 				</TCEforms>
 				<type>array</type>
 				<el>	     
 					<first_answer_selected>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tx_jkpoll_poll.first_answer_selected</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tx_jkpoll_poll.first_answer_selected</label>
 							<config>
 								<type>check</type>
 							</config>
@@ -93,7 +93,7 @@
 					</first_answer_selected>
 					<checkbox>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.checkbox</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.checkbox</label>
 							<config>
 								<type>check</type>
 							</config>
@@ -101,7 +101,7 @@
 					</checkbox>
 					<cookie>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.cookie</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.cookie</label>
 							<config>
 								<type>input</type>
 								<size>5</size>
@@ -110,7 +110,7 @@
 					</cookie>
 					<fe_user>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.fe_user</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.fe_user</label>
 							<config>
 								<type>check</type>
 							</config>
@@ -118,7 +118,7 @@
 					</fe_user>
 					<check_ip>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.check_ip</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.check_ip</label>
 							<config>
 								<type>check</type>
 							</config>
@@ -126,7 +126,7 @@
 					</check_ip>
 					<time>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.time</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.time</label>
 							<config>
 								<type>input</type>
 								<size>5</size>
@@ -135,7 +135,7 @@
 					</time>
 					<captcha>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.captcha</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.captcha</label>
 							<config>
 								<type>select</type>
 								<items type="array">
@@ -162,7 +162,7 @@
 					</captcha>
 					<comments>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.comments</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.comments</label>
 							<config>
 								<type>check</type>
 							</config>
@@ -171,7 +171,7 @@
 					<PIDforward>
 						<TCEforms>
 							<exclude>1</exclude>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.PIDforward</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.PIDforward</label>
 							<config>
 								<type>group</type>
 								<internal_type>db</internal_type>
@@ -185,7 +185,7 @@
 					</PIDforward>
 					<list>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.list</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.list</label>
 							<config>
 								<type>check</type>
 							</config>
@@ -193,7 +193,7 @@
 					</list>
 					<link_to_result>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.link_to_result</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.link_to_result</label>
 							<config>
 								<type>check</type>
 							</config>
@@ -206,26 +206,26 @@
 		<s_result>
 			<ROOT>
 				<TCEforms>
-					<sheetTitle>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.sheet_result</sheetTitle>
+					<sheetTitle>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.sheet_result</sheetTitle>
 				</TCEforms>
 				<type>array</type>
 				<el>	     
 					<type>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.type</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.type</label>
 							<config>
 								<type>select</type>
 								<items type="array">
 								<numIndex index="0" type="array">
-									<numIndex index="0">LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.type_horizontal</numIndex>
+									<numIndex index="0">LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.type_horizontal</numIndex>
 									<numIndex index="1">0</numIndex> 
 								</numIndex>
 								<numIndex index="1" type="array">
-									<numIndex index="0">LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.type_vertical</numIndex>
+									<numIndex index="0">LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.type_vertical</numIndex>
 									<numIndex index="1">1</numIndex>
 								</numIndex>
 								<numIndex index="2" type="array">
-									<numIndex index="0">LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.type_google</numIndex>
+									<numIndex index="0">LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.type_google</numIndex>
 									<numIndex index="1">2</numIndex>
 								</numIndex>
 								</items>
@@ -237,7 +237,7 @@
 					</type>
 					<color>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.color</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.color</label>
 							<config>
 								<type>input</type>
 								<size>15</size>
@@ -246,7 +246,7 @@
 					</color>
 					<path_to_images>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.path_to_images</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.path_to_images</label>
 							<config>
 								<type>input</type>
 								<size>30</size>
@@ -255,7 +255,7 @@
 					</path_to_images>
 					<height_width>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.height_width</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.height_width</label>
 							<config>
 								<type>input</type>
 								<size>5</size>
@@ -264,7 +264,7 @@
 					</height_width>
 					<factor>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.factor</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.factor</label>
 							<config>
 								<type>input</type>
 								<size>5</size>
@@ -273,7 +273,7 @@
 					</factor>
 					<show_zero_percent>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.show_zero_percent</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.show_zero_percent</label>
 							<config>
 								<type>check</type>
 							</config>
@@ -281,7 +281,7 @@
 					</show_zero_percent>
 					<show_css_bars>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.show_css_bars</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.show_css_bars</label>
 							<config>
 								<type>check</type>
 							</config>
@@ -289,7 +289,7 @@
 					</show_css_bars>
 					<google_width>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.google_width</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.google_width</label>
 							<config>
 								<type>input</type>
 								<size>5</size>
@@ -298,7 +298,7 @@
 					</google_width>
 					<google_height>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.google_height</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.google_height</label>
 							<config>
 								<type>input</type>
 								<size>5</size>
@@ -307,7 +307,7 @@
 					</google_height>
 					<comments_on_result>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.comments_on_result</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.comments_on_result</label>
 							<config>
 								<type>check</type>
 							</config>
@@ -315,7 +315,7 @@
 					</comments_on_result>
 					<link_to_poll>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.link_to_poll</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.link_to_poll</label>
 							<config>
 								<type>check</type>
 							</config>
@@ -323,7 +323,7 @@
 					</link_to_poll>
 					<result_limit>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.result_limit</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.result_limit</label>
 							<config>
 								<type>input</type>
 								<size>2</size>
@@ -337,13 +337,13 @@
 		<s_list>
 			<ROOT>
 				<TCEforms>
-					<sheetTitle>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.sheet_list</sheetTitle>
+					<sheetTitle>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.sheet_list</sheetTitle>
 				</TCEforms>
 				<type>array</type>
 				<el>	     
 					<amount>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.amount</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.amount</label>
 							<config>
 								<type>input</type>
 								<size>5</size>
@@ -352,7 +352,7 @@
 					</amount>
 					<show_first>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.show_first</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.show_first</label>
 							<config>
 								<type>check</type>
 							</config>
@@ -360,7 +360,7 @@
 					</show_first>
 					<hide_current>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.hide_current</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.hide_current</label>
 							<config>
 								<type>check</type>
 							</config>
@@ -368,7 +368,7 @@
 					</hide_current>
 					<vote_old>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.vote_old</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.vote_old</label>
 							<config>
 								<type>check</type>
 							</config>
@@ -376,7 +376,7 @@
 					</vote_old>
 					<pagebrowser>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.pagebrowser</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.pagebrowser</label>
 							<config>
 								<type>check</type>
 							</config>
@@ -384,7 +384,7 @@
 					</pagebrowser>
 					<pagebrowser_items>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.pagebrowser_items</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.pagebrowser_items</label>
 							<config>
 								<type>input</type>
 								<size>5</size>
@@ -393,7 +393,7 @@
 					</pagebrowser_items>
 					<show_results_in_list>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.show_results_in_list</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.show_results_in_list</label>
 							<config>
 								<type>check</type>
 							</config>
@@ -402,7 +402,7 @@
 					<PIDitemDisplay>
 						<TCEforms>
 						<exclude>1</exclude>
-						<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.PIDitemDisplay</label>
+						<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.PIDitemDisplay</label>
 						<config>
 							<type>group</type>
 							<internal_type>db</internal_type>
@@ -416,7 +416,7 @@
 					</PIDitemDisplay>
 					<backlink>
 						<TCEforms>
-							<label>LLL:EXT:jk_poll/locallang_db.xml:tt_content.pi_flexform.backlink</label>
+							<label>LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.backlink</label>
 							<config>
 								<type>check</type>
 							</config>

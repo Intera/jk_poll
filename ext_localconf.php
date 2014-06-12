@@ -3,6 +3,8 @@ if (!defined('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
+$languagePrefix = 'LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:';
+
 // Extending TypoScript from static template uid=43 to set up userdefined tag:
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript($_EXTKEY, 'editorcfg', '
 	tt_content.CSS_editor.ch.tx_jkpoll_pi1 = < plugin.tx_jkpoll_pi1.CSS_editor
@@ -26,8 +28,8 @@ mod.wizards.newContentElement.wizardItems.special {
 
 	elements.tx_jk_poll_pi1 {
 		icon = ' . \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/PollNewContentElementWizard.gif
-		title = LLL:EXT:jk_poll/locallang_db.xml:pi1_title
-		description = LLL:EXT:jk_poll/locallang_db.xml:pi1_plus_wiz_description
+		title = ' . $languagePrefix . 'pi1_title
+		description = ' . $languagePrefix . 'pi1_plus_wiz_description
 		tt_content_defValues {
 			CType = list
 			list_type = jk_poll_pi1
@@ -37,3 +39,5 @@ mod.wizards.newContentElement.wizardItems.special {
     show := addToList(tx_jk_poll_pi1)
 }
 ');
+
+unset($languagePrefix);

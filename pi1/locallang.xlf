@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages"  date="2014-06-11T15:51:54Z" product-name="jk_poll">
+		<header />
+		<body>
+			<trans-unit id="wrong_captcha" xml:space="preserve">
+				<source>Your vote was not registered. You must insert the right captcha.</source>
+			</trans-unit>
+			<trans-unit id="error_no_vote_selected" xml:space="preserve">
+				<source>Your must select one of the answers.</source>
+			</trans-unit>
+			<trans-unit id="no_poll_found" xml:space="preserve">
+				<source>No poll records found on this page. Please put a poll record on this page or point to a page in the field &quot;startingpoint&quot;</source>
+			</trans-unit>
+			<trans-unit id="poll_not_visible" xml:space="preserve">
+				<source>This poll is not available!</source>
+			</trans-unit>
+			<trans-unit id="votes_total" xml:space="preserve">
+				<source>votes total</source>
+			</trans-unit>
+			<trans-unit id="novote_label" xml:space="preserve">
+				<source>No votes yet</source>
+			</trans-unit>
+			<trans-unit id="onevote_label" xml:space="preserve">
+				<source>One vote</source>
+			</trans-unit>
+			<trans-unit id="votes_label" xml:space="preserve">
+				<source>votes</source>
+			</trans-unit>
+			<trans-unit id="amount_novote_label" xml:space="preserve">
+				<source>No votes</source>
+			</trans-unit>
+			<trans-unit id="amount_onevote_label" xml:space="preserve">
+				<source>1 vote</source>
+			</trans-unit>
+			<trans-unit id="amount_votes_label" xml:space="preserve">
+				<source>votes</source>
+			</trans-unit>
+			<trans-unit id="submit_button" xml:space="preserve">
+				<source>Submit</source>
+			</trans-unit>
+			<trans-unit id="linklist" xml:space="preserve">
+				<source>old polls</source>
+			</trans-unit>
+			<trans-unit id="link_to_poll" xml:space="preserve">
+				<source>vote on this poll</source>
+			</trans-unit>
+			<trans-unit id="link_to_result" xml:space="preserve">
+				<source>Switch to result of poll</source>
+			</trans-unit>
+			<trans-unit id="linkview" xml:space="preserve">
+				<source>back</source>
+			</trans-unit>
+			<trans-unit id="has_voted" xml:space="preserve">
+				<source>Only one vote allowed per person.</source>
+			</trans-unit>
+			<trans-unit id="no_login" xml:space="preserve">
+				<source>You can only vote if you log in.</source>
+			</trans-unit>
+			<trans-unit id="error_no_vote" xml:space="preserve">
+				<source>Your vote was not registered. You must enable cookies in your browser to vote.</source>
+			</trans-unit>
+			<trans-unit id="listFieldHeader_title" xml:space="preserve">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="listFieldHeader_question" xml:space="preserve">
+				<source>Question</source>
+			</trans-unit>
+			<trans-unit id="listFieldHeader_answers" xml:space="preserve">
+				<source>Answers</source>
+			</trans-unit>
+			<trans-unit id="limit_other" xml:space="preserve">
+				<source>Other</source>
+			</trans-unit>
+			<trans-unit id="poll_vote_error_header" xml:space="preserve">
+				<source>Voting is not possible at the moment.</source>
+			</trans-unit>
+			<trans-unit id="poll_error_cookie_voted" xml:space="preserve">
+				<source>It seems that someone already voted from your computer. Only one vote is allowed.</source>
+			</trans-unit>
+			<trans-unit id="poll_error_ip_voted" xml:space="preserve">
+				<source>The IP address from which you are submitting your vote already voted. Only one vote is allowed for each IP address.</source>
+			</trans-unit>
+			<trans-unit id="poll_error_user_not_logged_in" xml:space="preserve">
+				<source>Only logged in users are allowed to vote for this poll. Please sign in to add your vote.</source>
+			</trans-unit>
+			<trans-unit id="poll_error_user_voted" xml:space="preserve">
+				<source>Your user already has voted for this poll. Only one vote is allowed per user.</source>
+			</trans-unit>
+			<trans-unit id="poll_error_poll_finished" xml:space="preserve">
+				<source>The poll is expired because a newer poll is already active.</source>
+			</trans-unit>
+			<trans-unit id="poll_error_poll_expired" xml:space="preserve">
+				<source>The poll is finished. No votes are accepted any more.</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2014-06-11T15:52:02Z" product-name="jk_poll">
+		<header />
+		<body>
+			<trans-unit id="pi1_title" xml:space="preserve">
+				<source>Poll</source>
+			</trans-unit>
+			<trans-unit id="pi1_plus_wiz_description" xml:space="preserve">
+				<source>Add a poll to the page. Ask a question and let users vote from a set of options</source>
+			</trans-unit>
+			<trans-unit id="tx_jkpoll_poll" xml:space="preserve">
+				<source>Poll</source>
+			</trans-unit>
+			<trans-unit id="tx_jkpoll_poll.tabs.image" xml:space="preserve">
+				<source>Image</source>
+			</trans-unit>
+			<trans-unit id="tx_jkpoll_poll.tabs.answers" xml:space="preserve">
+				<source>Options for Answers</source>
+			</trans-unit>
+			<trans-unit id="tx_jkpoll_poll.tabs.access" xml:space="preserve">
+				<source>Visibility</source>
+			</trans-unit>
+			<trans-unit id="tx_jkpoll_poll.title" xml:space="preserve">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_jkpoll_poll.image" xml:space="preserve">
+				<source>Image</source>
+			</trans-unit>
+			<trans-unit id="tx_jkpoll_poll.question" xml:space="preserve">
+				<source>Question</source>
+			</trans-unit>
+			<trans-unit id="tx_jkpoll_poll.votes_count" xml:space="preserve">
+				<source>Amount of people voted:</source>
+			</trans-unit>
+			<trans-unit id="tx_jkpoll_poll.votes" xml:space="preserve">
+				<source>Votes</source>
+			</trans-unit>
+			<trans-unit id="tx_jkpoll_poll.answers" xml:space="preserve">
+				<source>Answers</source>
+			</trans-unit>
+			<trans-unit id="tx_jkpoll_poll.colors" xml:space="preserve">
+				<source>Colors</source>
+			</trans-unit>
+			<trans-unit id="tx_jkpoll_poll.crdate" xml:space="preserve">
+				<source>Creation Date (used for sorting)</source>
+			</trans-unit>
+			<trans-unit id="tt_content.list_type_pi1" xml:space="preserve">
+				<source>Poll</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.sheet_settings" xml:space="preserve">
+				<source>General Settings</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.what_to_display" xml:space="preserve">
+				<source>What to display:</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.checkbox" xml:space="preserve">
+				<source>Allow to vote for more than one answer:</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.amount" xml:space="preserve">
+				<source>Amount of polls (LIST):</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.sheet_template" xml:space="preserve">
+				<source>Template</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.type" xml:space="preserve">
+				<source>Type:</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.templatefile" xml:space="preserve">
+				<source>Template</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.css_file" xml:space="preserve">
+				<source>CSS file</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.type_horizontal" xml:space="preserve">
+				<source>horizontal</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.type_vertical" xml:space="preserve">
+				<source>vertical</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.type_google" xml:space="preserve">
+				<source>Google Chart</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.color" xml:space="preserve">
+				<source>Color:</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.height_width" xml:space="preserve">
+				<source>Height/Width:</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.factor" xml:space="preserve">
+				<source>Factor:</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.show_zero_percent" xml:space="preserve">
+				<source>Show zero percent as 1 pixel:</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.show_css_bars" xml:space="preserve">
+				<source>Render bars with CSS:</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.path_to_images" xml:space="preserve">
+				<source>Path for images:</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.PIDitemDisplay" xml:space="preserve">
+				<source>Page for Single-view (POLL):</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.backlink" xml:space="preserve">
+				<source>Show link to get back to previous page:</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.show_first" xml:space="preserve">
+				<source>Show first poll in LIST:</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.hide_current" xml:space="preserve">
+				<source>Hide current poll in LIST:</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.fe_user" xml:space="preserve">
+				<source>Allow only fe_users to vote:</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.check_ip" xml:space="preserve">
+				<source>Check IP before vote is possible:</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.time" xml:space="preserve">
+				<source>Allow another vote after x hours (if IP check is	enabled):</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.vote_old" xml:space="preserve">
+				<source>Allow votes for old polls in LIST:</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.cookie" xml:space="preserve">
+				<source>Set cookie for x days (value &quot;off&quot; for non-persistent cookie):</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.captcha" xml:space="preserve">
+				<source>Use captcha (Extension captcha or sr_captcha is required):</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.comments" xml:space="preserve">
+				<source>Use comments (Extension comments is required):</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.comments_on_result" xml:space="preserve">
+				<source>Use comments (Extension comments is required), but	only on RESULT view:</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.pagebrowser" xml:space="preserve">
+				<source>Show pagebrowser in LIST (Extension pagebrowse required):</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.pagebrowser_items" xml:space="preserve">
+				<source>Items per page (if using pagebrowser):</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.show_results_in_list" xml:space="preserve">
+				<source>Show results in LIST:</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.list" xml:space="preserve">
+				<source>Include link to list of old polls:</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.link_to_poll" xml:space="preserve">
+				<source>Include link to POLL view:</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.link_to_result" xml:space="preserve">
+				<source>Include link to RESULT view:</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.PIDforward" xml:space="preserve">
+				<source>Page to forward to after vote:</source>
+			</trans-unit>
+			<trans-unit id="tx_jkpoll_poll.valid_till" xml:space="preserve">
+				<source>valid till</source>
+			</trans-unit>
+			<trans-unit id="tx_jkpoll_poll.title_tag" xml:space="preserve">
+				<source>Title Text</source>
+			</trans-unit>
+			<trans-unit id="tx_jkpoll_poll.alternative_tag" xml:space="preserve">
+				<source>Alternative Text</source>
+			</trans-unit>
+			<trans-unit id="tx_jkpoll_poll.width" xml:space="preserve">
+				<source>Width (pixels)</source>
+			</trans-unit>
+			<trans-unit id="tx_jkpoll_poll.height" xml:space="preserve">
+				<source>Height (pixels)</source>
+			</trans-unit>
+			<trans-unit id="tx_jkpoll_poll.link" xml:space="preserve">
+				<source>Link</source>
+			</trans-unit>
+			<trans-unit id="tx_jkpoll_poll.clickenlarge" xml:space="preserve">
+				<source>Click-enlarge</source>
+			</trans-unit>
+			<trans-unit id="tx_jkpoll_poll.answers_image" xml:space="preserve">
+				<source>Images for answers</source>
+			</trans-unit>
+			<trans-unit id="tx_jkpoll_poll.answers_description" xml:space="preserve">
+				<source>Descriptions for answers</source>
+			</trans-unit>
+			<trans-unit id="tx_jkpoll_poll.explanation" xml:space="preserve">
+				<source>Explanation</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.sheet_poll" xml:space="preserve">
+				<source>POLL</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.sheet_result" xml:space="preserve">
+				<source>RESULT</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.sheet_list" xml:space="preserve">
+				<source>LIST</source>
+			</trans-unit>
+			<trans-unit id="tx_jkpoll_poll.vote_language_specific" xml:space="preserve">
+				<source>Count votes for every language separately:</source>
+			</trans-unit>
+			<trans-unit id="tx_jkpoll_poll.check_language_specific" xml:space="preserve">
+				<source>Check if user can vote for every language	separately:</source>
+			</trans-unit>
+			<trans-unit id="tx_jkpoll_poll.first_answer_selected" xml:space="preserve">
+				<source>First answer is checked by default:</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.sheet_google" xml:space="preserve">
+				<source>Google Chart</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.google_width" xml:space="preserve">
+				<source>Width (pixels) for Google Chart</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.google_height" xml:space="preserve">
+				<source>Height (pixels) for Google Chart</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.result_limit" xml:space="preserve">
+				<source>Limit number of answers shown to the top:</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

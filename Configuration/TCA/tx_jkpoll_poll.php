@@ -1,7 +1,10 @@
 <?php
+$languagePrefix = 'LLL:EXT:jk_poll/Resources/Private/Language/locallang_db.xlf:';
+$languagePrefixColumn = $languagePrefix . 'tx_jkpoll_poll.';
+
 return array(
 	'ctrl' => array(
-		'title' => 'LLL:EXT:jk_poll/locallang_db.xml:tx_jkpoll_poll',
+		'title' => $languagePrefix . 'tx_jkpoll_poll',
 		'label' => 'title',
 		'default_sortby' => 'ORDER BY crdate DESC',
 		'tstamp' => 'tstamp',
@@ -35,7 +38,7 @@ return array(
 		'crdate' => array(
 			'exclude' => 1,
 			'l10n_mode' => 'mergeIfNotBlank',
-			'label' => 'LLL:EXT:jk_poll/locallang_db.xml:tx_jkpoll_poll.crdate',
+			'label' => $languagePrefixColumn . 'crdate',
 			'config' => array(
 				'type' => 'input',
 				'size' => '15',
@@ -99,7 +102,7 @@ return array(
 		'title' => array(
 			'exclude' => 1,
 			'l10n_mode' => 'prefixLangTitle',
-			'label' => 'LLL:EXT:jk_poll/locallang_db.xml:tx_jkpoll_poll.title',
+			'label' => $languagePrefixColumn . 'title',
 			'config' => array(
 				'type' => 'input',
 				'size' => '30',
@@ -109,7 +112,7 @@ return array(
 		'image' => array(
 			'exclude' => 1,
 			'l10n_mode' => 'exclude',
-			'label' => 'LLL:EXT:jk_poll/locallang_db.xml:tx_jkpoll_poll.image',
+			'label' => $languagePrefixColumn . 'image',
 			'config' => array(
 				'type' => 'group',
 				'internal_type' => 'file',
@@ -125,7 +128,7 @@ return array(
 		'question' => array(
 			'exclude' => 1,
 			'l10n_mode' => 'prefixLangTitle',
-			'label' => 'LLL:EXT:jk_poll/locallang_db.xml:tx_jkpoll_poll.question',
+			'label' => $languagePrefixColumn . 'question',
 			'config' => array(
 				'type' => 'text',
 				'cols' => '30',
@@ -146,7 +149,7 @@ return array(
 		'votes' => array(
 			'exclude' => 1,
 			'l10n_mode' => 'exclude',
-			'label' => 'LLL:EXT:jk_poll/locallang_db.xml:tx_jkpoll_poll.votes',
+			'label' => $languagePrefixColumn . 'votes',
 			'config' => array(
 				'type' => 'none',
 				'cols' => '30',
@@ -156,7 +159,7 @@ return array(
 		'answers' => array(
 			'exclude' => 1,
 			'l10n_mode' => 'prefixLangTitle',
-			'label' => 'LLL:EXT:jk_poll/locallang_db.xml:tx_jkpoll_poll.answers',
+			'label' => $languagePrefixColumn . 'answers',
 			'config' => array(
 				'type' => 'text',
 				'cols' => '30',
@@ -166,7 +169,7 @@ return array(
 		'colors' => array(
 			'exclude' => 1,
 			'l10n_mode' => 'mergeIfNotBlank',
-			'label' => 'LLL:EXT:jk_poll/locallang_db.xml:tx_jkpoll_poll.colors',
+			'label' => $languagePrefixColumn . 'colors',
 			'config' => array(
 				'type' => 'text',
 				'cols' => '30',
@@ -176,7 +179,7 @@ return array(
 		'votes_count' => array(
 			'exclude' => 1,
 			'l10n_mode' => 'exclude',
-			'label' => 'LLL:EXT:jk_poll/locallang_db.xml:tx_jkpoll_poll.votes_count',
+			'label' => $languagePrefixColumn . 'votes_count',
 			'config' => array(
 				'type' => 'none',
 				'cols' => '30',
@@ -185,7 +188,7 @@ return array(
 		'valid_till' => array(
 			'exclude' => 1,
 			'l10n_mode' => 'mergeIfNotBlank',
-			'label' => 'LLL:EXT:jk_poll/locallang_db.xml:tx_jkpoll_poll.valid_till',
+			'label' => $languagePrefixColumn . 'valid_till',
 			'config' => array(
 				'type' => 'input',
 				'size' => '8',
@@ -198,7 +201,7 @@ return array(
 		'title_tag' => array(
 			'exclude' => 1,
 			'l10n_mode' => 'prefixLangTitle',
-			'label' => 'LLL:EXT:jk_poll/locallang_db.xml:tx_jkpoll_poll.title_tag',
+			'label' => $languagePrefixColumn . 'title_tag',
 			'config' => array(
 				'type' => 'text',
 				'cols' => '30',
@@ -208,7 +211,7 @@ return array(
 		'alternative_tag' => array(
 			'exclude' => 1,
 			'l10n_mode' => 'prefixLangTitle',
-			'label' => 'LLL:EXT:jk_poll/locallang_db.xml:tx_jkpoll_poll.alternative_tag',
+			'label' => $languagePrefixColumn . 'alternative_tag',
 			'config' => array(
 				'type' => 'text',
 				'cols' => '30',
@@ -218,7 +221,7 @@ return array(
 		'width' => array(
 			'exclude' => 1,
 			'l10n_mode' => 'exclude',
-			'label' => 'LLL:EXT:jk_poll/locallang_db.xml:tx_jkpoll_poll.width',
+			'label' => $languagePrefixColumn . 'width',
 			'config' => array(
 				'type' => 'input',
 				'size' => '4',
@@ -235,7 +238,7 @@ return array(
 		'height' => array(
 			'exclude' => 1,
 			'l10n_mode' => 'exclude',
-			'label' => 'LLL:EXT:jk_poll/locallang_db.xml:tx_jkpoll_poll.height',
+			'label' => $languagePrefixColumn . 'height',
 			'config' => array(
 				'type' => 'input',
 				'size' => '4',
@@ -252,7 +255,7 @@ return array(
 		'link' => array(
 			'exclude' => 1,
 			'l10n_mode' => 'mergeIfNotBlank',
-			'label' => 'LLL:EXT:jk_poll/locallang_db.xml:tx_jkpoll_poll.link',
+			'label' => $languagePrefixColumn . 'link',
 			'config' => array(
 				'type' => 'input',
 				'size' => '15',
@@ -274,7 +277,7 @@ return array(
 		'clickenlarge' => array(
 			'exclude' => 1,
 			'l10n_mode' => 'exclude',
-			'label' => 'LLL:EXT:jk_poll/locallang_db.xml:tx_jkpoll_poll.clickenlarge',
+			'label' => $languagePrefixColumn . 'clickenlarge',
 			'config' => array(
 				'type' => 'check',
 			)
@@ -282,7 +285,7 @@ return array(
 		'answers_image' => array(
 			'exclude' => 1,
 			'l10n_mode' => 'exclude',
-			'label' => 'LLL:EXT:jk_poll/locallang_db.xml:tx_jkpoll_poll.answers_image',
+			'label' => $languagePrefixColumn . 'answers_image',
 			'config' => array(
 				'type' => 'group',
 				'internal_type' => 'file',
@@ -298,7 +301,7 @@ return array(
 		'answers_description' => array(
 			'exclude' => 1,
 			'l10n_mode' => 'prefixLangTitle',
-			'label' => 'LLL:EXT:jk_poll/locallang_db.xml:tx_jkpoll_poll.answers_description',
+			'label' => $languagePrefixColumn . 'answers_description',
 			'config' => array(
 				'type' => 'text',
 				'cols' => '30',
@@ -308,7 +311,7 @@ return array(
 		'explanation' => array(
 			'exclude' => 1,
 			'l10n_mode' => 'prefixLangTitle',
-			'label' => 'LLL:EXT:jk_poll/locallang_db.xml:tx_jkpoll_poll.explanation',
+			'label' => $languagePrefixColumn . 'explanation',
 			'config' => array(
 				'type' => 'text',
 				'cols' => '30',
@@ -373,9 +376,9 @@ return array(
 	'types' => array(
 		'0' => array(
 			'showitem' => 'crdate, title, question;;4;richtext[paste|bold|italic|underline|formatblock|class|left|center|right|orderedlist|unorderedlist|outdent|indent|link|image]:rte_transform[mode=ts], answers;;2, colors, explanation;;;richtext[paste|bold|italic|underline|formatblock|class|left|center|right|orderedlist|unorderedlist|outdent|indent|link|image]:rte_transform[mode=ts];1-1-1,
-				--div--;LLL:EXT:jk_poll/locallang_db.xml:tx_jkpoll_poll.tabs.image, image;;3, title_tag, alternative_tag, width, height,
-				--div--;LLL:EXT:jk_poll/locallang_db.xml:tx_jkpoll_poll.tabs.answers, answers_image, answers_description,
-				--div--;LLL:EXT:jk_poll/locallang_db.xml:tx_jkpoll_poll.tabs.access, hidden;;1, valid_till'
+				--div--;' . $languagePrefixColumn . 'tabs.image, image;;3, title_tag, alternative_tag, width, height,
+				--div--;' . $languagePrefixColumn . 'tabs.answers, answers_image, answers_description,
+				--div--;' . $languagePrefixColumn . 'tabs.access, hidden;;1, valid_till'
 		),
 	),
 	'palettes' => array(
