@@ -1296,7 +1296,7 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 			$clickenlarge = $row_parent["clickenlarge"];
 		} else {
 
-			if (empty($row[''])) {
+			if (empty($row['image'])) {
 				return '';
 			}
 
@@ -1346,6 +1346,12 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	 * @return integer HTML for the image
 	 */
 	function getAnswerImage($image) {
+
+		$image = trim($image);
+
+		if ($image === '') {
+			return '';
+		}
 
 		$imgTSConfig["file"] = "uploads/tx_jkpoll/" . $image;
 		$width = $this->conf['answers_image_width'];
