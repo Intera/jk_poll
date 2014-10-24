@@ -15,7 +15,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'description' => 'A poll based on the extension quickpoll. A template-file can be used to define the output in the frontend. It is also possible to create a horiontal or vertical display of the percentage of users voted for an answer.',
 	'category' => 'plugin',
 	'shy' => 1,
-	'version' => '0.9.6',
+	'version' => '1.0.0',
 	'dependencies' => '',
 	'conflicts' => '',
 	'priority' => '',
@@ -34,7 +34,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'CGLcompliance_note' => '',
 	'constraints' => array(
 		'depends' => array(
-			'typo3' => '4.5.0-4.7.99',
+			'typo3' => '6.2.1-6.2.99',
 		),
 		'conflicts' => array(
 		),
