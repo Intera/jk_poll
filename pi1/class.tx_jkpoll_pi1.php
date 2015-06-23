@@ -661,13 +661,8 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 				// Make result bars
 				$markerArrayAnswer = array();
 				// get path for images
-				if ($this->conf['path_to_images']) {
-					$pathToImages = $this->conf['path_to_images'];
-				} elseif ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'path_to_images', 's_result')) {
-					$pathToImages = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'path_to_images', 's_result');
-				} else {
-					$pathToImages = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath($this->extKey) . 'images/';
-				}
+				$pathToImages = $this->resolvePathToImages();
+
 				$bar = ($percent == 0 && ($this->conf['show_zero_percent'] || $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'show_zero_percent', 's_result'))) ? 1 : round($percent * $factor);
 				if ($type == 0) {
 					// horizontal
@@ -1460,5 +1455,43 @@ class tx_jkpoll_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 		$this->cObj->data['tx_jkpoll_poll_title'] = $title;
 		$title = $this->cObj->cObjGetSingle($this->conf['rendering.']['title'], $this->conf['rendering.']['title.']);
 		return $title;
+	}
+
+	/**
+	 * Reads the path to the images from the TypoScript config or the FlexForm.
+	 * Uses FAL methods to correctly resolve the relative path.
+	 * Allows the usage of the EXT: prefix in the configured path.
+	 *
+	 * @return string
+	 */
+	protected function resolvePathToImages() {
+
+		if ($this->conf['path_to_images']) {
+			$pathToImages = $this->conf['path_to_images'];
+		} elseif ($this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'path_to_images', 's_result')) {
+			$pathToImages = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 'path_to_images', 's_result');
+		}
+
+		if (!empty($pathToImages)) {
+
+			$pathToImages = GeneralUtility::getFileAbsFileName($pathToImages);
+
+			if (!empty($pathToImages)) {
+
+				try {
+					$pathToImages = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance()->getFolderObjectFromCombinedIdentifier($pathToImages);
+					$pathToImages = $pathToImages->getPublicUrl();
+				} catch (\Exception $e) {
+					$pathToImages = NULL;
+				}
+			}
+		}
+
+		if (empty($pathToImages)) {
+			$pathToImages = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath($this->extKey) . 'images/';
+			return $pathToImages;
+		}
+
+		return $pathToImages;
 	}
 }
