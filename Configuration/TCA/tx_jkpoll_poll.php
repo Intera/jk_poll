@@ -125,27 +125,28 @@ return array(
 				'maxitems' => 1,
 			)
 		),
-		'question' => array(
+		'question' => [
 			'exclude' => 1,
 			'l10n_mode' => 'prefixLangTitle',
 			'label' => $languagePrefixColumn . 'question',
-			'config' => array(
+			'config' => [
 				'type' => 'text',
 				'cols' => '30',
 				'rows' => '5',
-				'wizards' => array(
-					'_PADDING' => 2,
-					'RTE' => array(
+				'wizards' => [
+					'RTE' => [
 						'notNewRecords' => 1,
 						'RTEonly' => 1,
 						'type' => 'script',
-						'title' => 'Full screen Rich Text Editing|Formatteret redigering i hele vinduet',
-						'icon' => 'wizard_rte2.gif',
-						'script' => 'wizard_rte.php',
-					),
-				),
-			)
-		),
+						'title' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:bodytext.W.RTE',
+						'icon' => 'actions-wizard-rte',
+						'module' => [
+							'name' => 'wizard_rte',
+						],
+					],
+				],
+			]
+		],
 		'votes' => array(
 			'exclude' => 1,
 			'l10n_mode' => 'exclude',
@@ -252,28 +253,30 @@ return array(
 				'default' => 0
 			)
 		),
-		'link' => array(
+		'link' => [
 			'exclude' => 1,
 			'l10n_mode' => 'mergeIfNotBlank',
 			'label' => $languagePrefixColumn . 'link',
-			'config' => array(
+			'config' => [
 				'type' => 'input',
 				'size' => '15',
 				'max' => '255',
 				'checkbox' => '',
 				'eval' => 'trim',
-				'wizards' => array(
-					'_PADDING' => 2,
-					'link' => array(
+				'wizards' => [
+					'link' => [
 						'type' => 'popup',
-						'title' => 'Link',
-						'icon' => 'link_popup.gif',
-						'script' => 'browse_links.php?mode=wizard',
-						'JSopenParams' => 'height=300,width=500,status=0,menubar=0,scrollbars=1'
-					)
-				)
-			)
-		),
+						'title' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:header_link_formlabel',
+						'icon' => 'actions-wizard-link',
+						'module' => [
+							'name' => 'wizard_link',
+						],
+						'JSopenParams' => 'width=800,height=600,status=0,menubar=0,scrollbars=1'
+					]
+				],
+				'softref' => 'typolink'
+			]
+		],
 		'clickenlarge' => array(
 			'exclude' => 1,
 			'l10n_mode' => 'exclude',
@@ -308,65 +311,71 @@ return array(
 				'rows' => '5',
 			)
 		),
-		'explanation' => array(
+		'explanation' => [
 			'exclude' => 1,
 			'l10n_mode' => 'prefixLangTitle',
 			'label' => $languagePrefixColumn . 'explanation',
-			'config' => array(
+			'config' => [
 				'type' => 'text',
 				'cols' => '30',
 				'rows' => '3',
-				'wizards' => array(
-					'_PADDING' => 2,
-					'RTE' => array(
+				'wizards' => [
+					'RTE' => [
 						'notNewRecords' => 1,
 						'RTEonly' => 1,
 						'type' => 'script',
-						'title' => 'Full screen Rich Text Editing|Formatteret redigering i hele vinduet',
-						'icon' => 'wizard_rte2.gif',
-						'script' => 'wizard_rte.php',
-					),
-				),
-			)
-		),
-		'sys_language_uid' => array(
+						'title' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:bodytext.W.RTE',
+						'icon' => 'actions-wizard-rte',
+						'module' => [
+							'name' => 'wizard_rte',
+						],
+					],
+				],
+			],
+		],
+		'sys_language_uid' => [
 			'exclude' => 1,
-			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.language',
-			'config' => array(
+			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.language',
+			'config' => [
 				'type' => 'select',
+				'renderType' => 'selectSingle',
 				'foreign_table' => 'sys_language',
 				'foreign_table_where' => 'ORDER BY sys_language.title',
-				'items' => array(
-					array('LLL:EXT:lang/locallang_general.php:LGL.allLanguages', -1),
-					array('LLL:EXT:lang/locallang_general.php:LGL.default_value', 0)
-				)
-			)
-		),
-		'l18n_parent' => array(
+				'items' => [
+					['LLL:EXT:lang/locallang_general.xlf:LGL.allLanguages', -1],
+					['LLL:EXT:lang/locallang_general.xlf:LGL.default_value', 0],
+				],
+				'default' => 0,
+				'showIconTable' => true,
+			],
+		],
+		'l18n_parent' => [
 			'displayCond' => 'FIELD:sys_language_uid:>:0',
 			'exclude' => 1,
-			'label' => 'LLL:EXT:lang/locallang_general.php:LGL.l18n_parent',
-			'config' => array(
+			'label' => 'LLL:EXT:lang/locallang_general.xlf:LGL.l18n_parent',
+			'config' => [
 				'type' => 'select',
-				'items' => array(
-					array('', 0),
-				),
+				'renderType' => 'selectSingle',
+				'items' => [
+					['', 0],
+				],
 				'foreign_table' => 'tx_jkpoll_poll',
-				'foreign_table_where' => 'AND tx_jkpoll_poll.uid=###REC_FIELD_l18n_parent### AND tx_jkpoll_poll.sys_language_uid IN (-1,0)',
-				'wizards' => array(
-					'_PADDING' => 2,
-					'_VERTICAL' => 1,
-					'edit' => array(
+				'foreign_table_where' => 'AND tx_jkpoll_poll.uid=###REC_FIELD_l10n_parent### AND tx_jkpoll_poll.sys_language_uid IN (-1,0)',
+				'default' => 0,
+				'wizards' => [
+					'edit' => [
 						'type' => 'popup',
-						'title' => 'edit default language version of this record ',
-						'script' => 'wizard_edit.php',
+						'title' => 'Edit template',
+						'module' => [
+							'name' => 'wizard_edit',
+						],
 						'popup_onlyOpenIfSelected' => 1,
-						'icon' => 'edit2.gif',
-						'JSopenParams' => 'height=600,width=700,status=0,menubar=0,scrollbars=1,resizable=1',
-					)
-				)
-			)
-		),
+						'icon' => 'actions-open',
+						'JSopenParams' => 'width=800,height=600,status=0,menubar=0,scrollbars=1',
+					],
+				],
+			],
+		],
 		'l18n_diffsource' => array(
 			'config' => array(
 				'type' => 'passthrough'
