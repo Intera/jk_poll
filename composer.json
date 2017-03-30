@@ -1,5 +1,5 @@
 {
-	"name": "intera-typo3-extension/jk_poll",
+	"name": "intera-typo3-extension/jk-poll",
 	"description": "A poll based on the extension quickpoll. A template-file can be used to define the output in the frontend. It is also possible to create a horiontal or vertical display of the percentage of users voted for an answer.",
 	"type": "typo3-cms-extension",
 	"keywords": [
